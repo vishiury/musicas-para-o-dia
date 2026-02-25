@@ -1,0 +1,240 @@
+.titulo{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(214, 192, 255);
+}
+/* Configuração Geral de Texto */
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: #f0eaff;
+    background-color: #1d044b;
+}
+
+/* Título Principal com Efeito de Brilho */
+.titulo.um {
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+    /* Sombra suave para dar profundidade */
+    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Caixa de Boas-vindas */
+.caixa {
+    background: rgba(214, 192, 255, 0.1); /* Fundo levemente transparente */
+    border-left: 4px solid rgb(214, 192, 255); /* Detalhe lateral elegante */
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 700px;
+    border-radius: 8px;
+}
+
+.titulo.tres {
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-align: center;
+    color: #d6c0ff;
+    font-style: italic;
+}
+
+/* Títulos dos Domingos */
+.dias {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    text-align: center;
+    /* Linha decorativa embaixo do título */
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.dias::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: rgb(214, 192, 255);
+    border-radius: 2px;
+}
+.dias{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(214, 192, 255);
+}
+/* Estilo Base do Botão */
+.oii {
+    display: block;          /* Ocupa o espaço necessário */
+    width: fit-content;      /* Ajusta ao tamanho do texto */
+    margin: 15px auto;       /* Centraliza e dá espaço entre um e outro */
+    padding: 12px 30px;      /* Espaço interno para o botão "respirar" */
+    
+    background-color: rgb(214, 192, 255); /* Cor de fundo */
+    color: rgb(51, 20, 80);               /* Cor do texto */
+    
+    text-decoration: none;   /* Remove o sublinhado do link */
+    font-weight: bold;       /* Deixa o texto mais visível */
+    font-size: 16px;
+    border-radius: 50px;     /* Bordas bem arredondadas (estilo moderno) */
+    border: none;            /* Remove a borda padrão do navegador */
+    cursor: pointer;         /* Muda o ícone do mouse */
+    
+    /* A mágica acontece aqui: Transição Suave */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra leve para dar profundidade */
+}
+
+/* Efeito quando o mouse passa por cima (Hover) */
+.oii:hover {
+    background-color: #ffffff;      /* Muda para branco */
+    transform: scale(1.05);         /* Aumenta levemente de tamanho */
+    box-shadow: 0 6px 12px rgba(214, 192, 255, 0.3); /* Aumenta o brilho da sombra */
+}
+
+/* Efeito quando o botão é clicado */
+.oii:active {
+    transform: scale(0.95);         /* Dá a sensação de que o botão foi pressionado */
+}
+@media only screen and (max-width: 700px) {
+            body {
+                font-size: 90%;
+            }
+            
+            h3{
+                font-size: medium;
+            }
+        }
+/* Container para as sugestões */
+.container-sugestoes {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+/* Card de cada música */
+.card-musica {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(214, 192, 255, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.card-musica:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgb(214, 192, 255);
+}
+
+.card-musica h3 {
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.card-musica p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 12px;
+}
+
+/* Botão pequeno para ouvir música */
+.btn-link {
+    font-size: 0.8rem;
+    color: rgb(214, 192, 255);
+    text-decoration: none;
+    border: 1px solid rgb(214, 192, 255);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.btn-link:hover {
+    background: rgb(214, 192, 255);
+    color: rgb(51, 20, 80);
+}
+
+/* Botão Voltar */
+.btn-voltar {
+    display: inline-block;
+    color: #d6c0ff;
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-voltar:hover {
+    color: white;
+    transform: translateX(-5px);
+}
+/* --- CONFIGURAÇÕES DE RESPONSIVIDADE --- */
+
+/* Para telas de celular (até 768px) */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 15px; /* Diminui o recuo lateral no celular */
+    }
+
+    .titulo.um {
+        font-size: 1.8rem; /* Título um pouco menor para não quebrar linha feio */
+        margin-top: 10px;
+    }
+
+    .caixa {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .titulo.tres {
+        font-size: 0.95rem; /* Texto de boas-vindas mais legível */
+    }
+
+    .dias {
+        font-size: 1.2rem; /* Títulos dos domingos menores */
+        margin-top: 30px;
+    }
+
+    /* Ajuste dos Botões no Celular */
+    .oii {
+        width: 100%;       /* O botão ocupa a largura toda da tela */
+        max-width: 300px;  /* Mas não fica gigante */
+        padding: 15px;     /* Aumenta a área de toque (importante para dedos!) */
+        font-size: 1rem;
+    }
+
+    /* Ajuste dos Cards de Música (Página Domingo 1) */
+    .container-sugestoes {
+        width: 100%;
+    }
+
+    .card-musica {
+        padding: 15px;
+    }
+
+    .card-musica h3 {
+        font-size: 1rem;
+    }
+}
+
+/* Para telas muito pequenas (antigas ou dobráveis - até 480px) */
+@media screen and (max-width: 480px) {
+    .titulo.um {
+        font-size: 1.5rem;
+    }
+    
+    .btn-voltar {
+        font-size: 0.8rem;
+    }
+}
