@@ -14,7 +14,7 @@ body {
 
 /* Título Principal com Efeito de Brilho */
 .titulo.um {
-    font-size: 2.8rem;
+    font-size: 3rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -33,6 +33,7 @@ body {
     margin: 30px auto;
     max-width: 700px;
     border-radius: 8px;
+    border-right: #d6c0ff 4px solid;
 }
 
 .titulo.tres {
@@ -231,10 +232,49 @@ body {
 /* Para telas muito pequenas (antigas ou dobráveis - até 480px) */
 @media screen and (max-width: 480px) {
     .titulo.um {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
     
     .btn-voltar {
         font-size: 0.8rem;
     }
 }
+/* Estilização do Rodapé */
+.rodape-creditos {
+    margin-top: 50px;
+    padding: 30px 20px;
+    text-align: center;
+    color: rgba(214, 192, 255, 0.7); /* Roxo claro com transparência */
+    font-size: 0.9rem;
+}
+
+.linha-separadora {
+    width: 60px;
+    height: 2px;
+    background-color: rgb(214, 192, 255);
+    margin: 0 auto 20px auto;
+    border-radius: 2px;
+    opacity: 0.3;
+}
+
+.rodape-creditos strong {
+    color: #ffffff; /* Destaca os nomes em branco */
+    font-weight: 700;
+}
+
+.ano-projeto {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Ajuste para celular */
+@media screen and (max-width: 768px) {
+    .rodape-creditos {
+        margin-top: 30px;
+        font-size: 0.8rem;
+    }
+}
+
+
