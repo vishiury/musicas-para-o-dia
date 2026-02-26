@@ -278,3 +278,85 @@ body {
 }
 
 
+/* Adicione isso ao final do seu CSS */
+@keyframes pulsaFumaca {
+    0% { box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 25px 8px rgba(255, 255, 255, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.8); }
+    100% { box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5); }
+}
+
+.oii:hover {
+    animation: pulsaFumaca 2s infinite ease-in-out;
+}
+
+
+
+@keyframes agitaLetra {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        /* Movimento leve para cima e inclinação suave */
+        transform: translate(1px, -2px) rotate(1deg);
+    }
+    66% {
+        /* Movimento leve para o lado e inclinação inversa */
+        transform: translate(-1px, 1px) rotate(-1deg);
+    }
+}
+
+.letra-agitada {
+    display: inline-block;
+    animation-name: agitaLetra;
+    animation-iteration-count: infinite;
+    /* "ease-in-out" faz a letra acelerar e desacelerar suavemente */
+    animation-timing-function: ease-in-out; 
+    position: relative;
+    z-index: 1;
+    /* Adiciona um leve respiro entre as letras */
+    margin: 0 1px;
+}
+#titulo-agitado {
+    position: relative;
+    padding: 20px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Criando a fonte de luz centralizada */
+#titulo-agitado::before {
+    content: "";
+    position: absolute;
+    /* Centraliza a luz */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Define o tamanho da aura (ajuste se o título for muito longo) */
+    width: 110%;
+    height: 130%;
+    
+    /* Gradiente Radial: a luz nasce no centro e morre nas bordas */
+    background: radial-gradient(
+        circle, 
+        rgba(214, 192, 255, 0.35) 0%,   /* Cor lilás suave no centro */
+        rgba(214, 192, 255, 0.1) 45%,   /* Vai enfraquecendo */
+        transparent 75%                 /* Desaparece totalmente */
+    );
+
+    /* O pulo do gato: desfoque potente para parecer luz real */
+    filter: blur(25px);
+    
+    /* Garante que fique atrás das letras */
+    z-index: -1;
+    pointer-events: none;
+}
+.letra-agitada {
+    color: #ffffff; /* Branco puro para brilhar no contraste */
+    font-weight: 800;
+    text-shadow: none; /* Removemos sombras para não sujar a luz de fundo */
+    position: relative;
+    z-index: 2; /* Fica à frente da luz */
+}
