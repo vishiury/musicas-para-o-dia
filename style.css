@@ -189,7 +189,7 @@ body {
     }
 
     .titulo.um {
-        font-size: 1.8rem; /* Título um pouco menor para não quebrar linha feio */
+        font-size: 1.5rem; /* Título um pouco menor para não quebrar linha feio */
         margin-top: 10px;
     }
 
@@ -232,7 +232,7 @@ body {
 /* Para telas muito pequenas (antigas ou dobráveis - até 480px) */
 @media screen and (max-width: 480px) {
     .titulo.um {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     .btn-voltar {
