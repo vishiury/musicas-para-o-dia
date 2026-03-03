@@ -404,11 +404,13 @@
 
 /* 1. Fundo da página principal branco */
 body.body-index {
-    
-    background:url(https://imgs.search.brave.com/mW9nkmNn4BjXgVvkSzPUsOeYELZu49BTdhFxL4q3vnk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/Y2FuY2Fvbm92YS5j/b20vY25pbWFnZXMv/Y2FuYWlzL3VwbG9h/ZHMvc2l0ZXMvNi8y/MDE2LzA1L2Zvcm1h/Y2FvX2NvbmZpcmEt/YWxndW1hcy1vcmFj/b2VzLXBhcmEtZmF6/ZXItZGlhbnRlLWRl/LWplc3VzLWV1Y2Fy/aXN0aWNvXzE2MDAt/eC0xMjAwLTYwMHgz/MDAucG5n); /* Fundo branco puro */
+    background-image: url(https://imgs.search.brave.com/mW9nkmNn4BjXgVvkSzPUsOeYELZu49BTdhFxL4q3vnk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/Y2FuY2Fvbm92YS5j/b20vY25pbWFnZXMv/Y2FuYWlzL3VwbG9h/ZHMvc2l0ZXMvNi8y/MDE2LzA1L2Zvcm1h/Y2FvX2NvbmZpcmEt/YWxndW1hcy1vcmFj/b2VzLXBhcmEtZmF6/ZXItZGlhbnRlLWRl/LWplc3VzLWV1Y2Fy/aXN0aWNvXzE2MDAt/eC0xMjAwLTYwMHgz/MDAucG5n);
     background-repeat: no-repeat;
     background-size: cover;
-    backdrop-filter: blur(8px); /* Leve desfoque para suavizar a textura */
+    background-position: center; /* Mantém o centro da imagem focado */
+    background-attachment: fixed; /* Opcional: faz a imagem ficar parada enquanto o conteúdo rola */
+    backdrop-filter: blur(8px);
+
     min-height: 100vh;
     margin: 0;
     padding-top: 30px;
