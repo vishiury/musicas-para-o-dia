@@ -337,7 +337,8 @@
    8. RESPONSIVIDADE (Telas Menores)
 ========================================= */
 @media screen and (max-width: 768px) {
-    body {
+    body { 
+    
         padding: 15px;
         font-size: 90%; /* Incorporado do seu max-width: 700px original */
     }
@@ -403,18 +404,21 @@
 
 /* 1. Fundo da página principal branco */
 body.body-index {
-    background-color: #111111; /* Fundo branco puro */
+    
+    background:url(https://imgs.search.brave.com/mW9nkmNn4BjXgVvkSzPUsOeYELZu49BTdhFxL4q3vnk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/Y2FuY2Fvbm92YS5j/b20vY25pbWFnZXMv/Y2FuYWlzL3VwbG9h/ZHMvc2l0ZXMvNi8y/MDE2LzA1L2Zvcm1h/Y2FvX2NvbmZpcmEt/YWxndW1hcy1vcmFj/b2VzLXBhcmEtZmF6/ZXItZGlhbnRlLWRl/LWplc3VzLWV1Y2Fy/aXN0aWNvXzE2MDAt/eC0xMjAwLTYwMHgz/MDAucG5n); /* Fundo branco puro */
+    background-repeat: no-repeat;
+    background-size: cover;
+    backdrop-filter: blur(8px); /* Leve desfoque para suavizar a textura */
     min-height: 100vh;
     margin: 0;
     padding-top: 30px;
     font-family: 'Montserrat', sans-serif;
 }
-
 /* 2. Título principal com luz roxa atrás */
 body.body-index #titulo-agitado {
     color: #1f1f1f; /* Cor da letra */
     text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(80, 80, 80, 0.5); /* Luz roxa suave atrás */
+    text-shadow: 0 0 15px rgba(80, 80, 80, 0.753); /* Luz roxa suave atrás */
     margin-bottom: 40px;
 }
 
