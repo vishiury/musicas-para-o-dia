@@ -565,3 +565,199 @@ body.body-index .bloqueado:hover::after {
     display: none; /* Desabilita os pseudoelementos nos bloqueados */
     animation: none; /* Remove a animação */
 }
+
+/* Container para centralizar a barra abaixo do título */
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Estilo inicial da barra (Pequena) */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #dfe1e5;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28); /* Sombra suave estilo Google */
+    border-radius: 24px;
+    padding: 5px 15px;
+    width: 250px; /* Largura inicial pequena */
+    transition: all 0.4s ease; /* Transição suave para a expansão */
+    cursor: pointer;
+}
+
+/* Esconde a borda padrão do input */
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.search-icon {
+    color: #70757a;
+    font-size: 18px;
+}
+
+.search-bar {
+    border: 5px solid rgb(117, 117, 117) !important;
+}
+
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Preto com 50% de transparência para escurecer */
+    background-color: rgba(0, 0, 0, 0.5); 
+    /* Efeito de vidro jateado/fosco */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999;
+    display: none;
+}
+
+/* Garanta que a barra ativa fique acima do fundo escuro */
+.search-bar.active {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    z-index: 1000; /* Maior que o 999 do overlay */
+    background: white;
+}
+.search-results-list {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
+    background: white;
+    border-radius: 0 0 24px 24px;
+}
+
+.result-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.result-item:hover {
+    background: #f1f1f1;
+}
+
+.result-item strong {
+    color: #4b0082; /* Roxo */
+    display: block;
+}
+
+.result-item p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 5px 0 0;
+}
+/* Container que segura a barra e os resultados */
+.search-wrapper {
+    display: flex;
+    flex-direction: column; /* Força um embaixo do outro */
+    align-items: center;
+    width: 100%;
+}
+
+/* Ajuste na barra de pesquisa quando está ativa */
+.search-bar.active {
+    display: flex;
+    flex-direction: column; /* Garante que o input e a lista de resultados fiquem em coluna */
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 1000;
+    background: white;
+    border-radius: 24px;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Lista de resultados */
+.search-results-list {
+    width: 100%; /* Ocupa toda a largura da barra */
+    max-height: 60vh; /* Não deixa a lista ultrapassar a altura da tela */
+    overflow-y: auto;
+    background: white;
+    border-top: 1px solid #eee; /* Linha sutil para separar o input dos resultados */
+    margin-top: 10px;
+}
+
+/* Estilo do marca-texto nos resultados */
+mark {
+    background-color: #ffeb3b; /* Amarelo brilhante */
+    color: black;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+/* Estilo para quando não houver resultados */
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    cursor: default !important;
+}
+
+.no-results p {
+    font-style: italic;
+}
+
+
+/* Fundo fosco */
+.search-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px); /* Efeito de vidro fosco */
+    z-index: 999;
+}
+
+/* Painel Lateral */
+.search-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+    transform: translateX(100%); /* Escondido à direita */
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Quando o painel está ativo */
+.search-sidebar.active {
+    transform: translateX(0);
+}
+
+/* Quando adicionamos a classe 'active' via JS, o fundo aparece */
+.search-overlay.active {
+    display: block;
+}
+
+/* Quando adicionamos a classe 'active' via JS, o painel desliza para dentro */
+.search-sidebar.active {
+    transform: translateX(0);
+}
