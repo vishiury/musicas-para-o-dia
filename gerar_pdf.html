@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Repertório da Missa - PDF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --cor-primaria: #d6c0ff;
+            --cor-fundo: #1d044b;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0; padding: 0; color: #333;
+        }
+
+        /* Área de Controlo (Não sai no PDF) */
+        .no-print {
+            background-color: var(--cor-fundo);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-acao {
+            background-color: var(--cor-primaria);
+            color: #1d044b;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-acao:hover { background-color: white; transform: scale(1.05); }
+        
+        .btn-acao:disabled {
+            background-color: #666;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Aviso de "Nada Marcado" */
+        .aviso-vazio {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid #ffeeba;
+        }
+
+        /* Estrutura da Folha A4 */
+        #conteudo-pdf {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header.pdf-header {
+            text-align: center;
+            border-bottom: 2px solid var(--cor-fundo);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+
+        .item-repertorio {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+
+        .item-repertorio h2 {
+            font-size: 1.1rem;
+            color: #1d044b;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            border-left: 4px solid var(--cor-fundo);
+            padding-left: 10px;
+        }
+
+        .info-musica {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .letra-musica {
+            white-space: pre-wrap;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            color: #333;
+            margin-left: 14px;
+        }
+
+        /* Responsividade para o ecrã */
+        @media (max-width: 210mm) {
+            #conteudo-pdf {
+                width: 95%;
+                padding: 10mm;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <button class="btn-acao" onclick="window.history.back()">⬅ Voltar</button>
+        <button id="btn-download" class="btn-acao" onclick="gerarPDF()">📥 Baixar PDF</button>
+    </div>
+
+    <div id="status-aviso"></div>
+
+    <div id="conteudo-pdf">
+        <header class="pdf-header">
+            <h1 style="margin:0; color:#1d044b;">Repertório da Santa Missa</h1>
+            <p id="data-atual" style="margin:5px 0; font-weight:bold;"></p>
+        </header>
+
+        <div id="lista-musicas">
+            </div>
+    </div>
+
+    <script>
+        function carregarRepertorio() {
+            const listaContainer = document.getElementById('lista-musicas');
+            const avisoContainer = document.getElementById('status-aviso');
+            const btnDownload = document.getElementById('btn-download');
+            
+            // Dados vindos do localStorage
+            const dados = JSON.parse(localStorage.getItem('meuRepertorioMissa') || '[]');
+            const nomesMomentos = ["Entrada", "Ato Penitencial", "Glória" , "Aclamação", "Ofertório", "Santo / Cordeiro", "Comunhão", "Pós-Comunhão / Final"];
+
+            // Filtrar apenas o que o utilizador MARCOU com o checkbox
+            const itensMarcados = dados.filter(item => item.check === true);
+
+            if (itensMarcados.length === 0) {
+                avisoContainer.innerHTML = `
+                    <div class="aviso-vazio">
+                        <strong>Aviso:</strong> Não selecionou nenhum momento no planeador. 
+                        <br>Marque os "quadradinhos" das músicas que deseja incluir no PDF.
+                    </div>`;
+                btnDownload.disabled = true;
+                listaContainer.innerHTML = "<p style='text-align:center; color:#999;'>Nenhuma música selecionada.</p>";
+                return;
+            }
+
+            // Se houver itens, gerar o conteúdo
+            dados.forEach((item, index) => {
+                if (item.check) {
+                    const section = document.createElement('div');
+                    section.className = 'item-repertorio';
+                    const momentoNome = nomesMomentos[index] || "Momento Extra";
+
+                    section.innerHTML = `
+                        <h2>${momentoNome}</h2>
+                        <div class="info-musica">
+                            <span>Música: ${item.musica || '---'}</span>
+                            <span>Tom: ${item.tom || 'N/A'}</span>
+                        </div>
+                        <div class="letra-musica">${item.letra || '<i>Letra não encontrada.</i>'}</div>
+                    `;
+                    listaContainer.appendChild(section);
+                }
+            });
+
+            document.getElementById('data-atual').textContent = new Date().toLocaleDateString('pt-PT', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
+        function gerarPDF() {
+            const elemento = document.getElementById('conteudo-pdf');
+            const opcoes = {
+                margin:       [10, 0, 10, 0], // Margens [topo, esquerda, baixo, direita]
+                filename:     'Repertorio_Missa.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opcoes).from(elemento).save();
+        }
+
+        window.onload = carregarRepertorio;
+    </script>
+</body>
+</html>

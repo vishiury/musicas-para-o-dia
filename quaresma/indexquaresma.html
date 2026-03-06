@@ -7,12 +7,13 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="../animacao_titulo.js"></script>
+    <script src="../planejador.js"></script>
     <link rel="stylesheet" href="../style.css">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="manifest" href="../site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="../imagens/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../imagens/favicon-16x16.png">
+    <link rel="manifest" href="../imagens/site.webmanifest">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
@@ -67,5 +68,93 @@
     <p class="ano-projeto">© 2026 - Músicas para o Dia</p>
     </footer>
 
+
+
+    <button id="btn-planejador" class="btn-planejador">📝 Planejar Missa</button>
+
+<div id="overlay-planejador" class="search-overlay">
+
+<div id="modal-planejador" class="modal-planejador">
+    <div class="modal-header">
+        <h2 >Planejamento da Missa</h2>
+        <button id="fechar-planejador" class="btn-close">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Entrada</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom (ex: C, F#)">
+            </div>
+        </div>
+
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Ato Penitencial</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+         <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>gloria</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Aclamação</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Ofertório</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Comunhão</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>final</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        </div>
+    
+    <button id="btn-preparar-pdf" class="oii" style="width: 100%;">Avançar para Gerar PDF</button>
+</div></div>
 </body>
 </html>

@@ -1,23 +1,54 @@
+/* ==========================================================================
+   QUARESMA — CSS ORGANIZADO E CORRIGIDO
+   - Mantive sua identidade visual e animações
+   - Combinei variáveis duplicadas, removi/mesclei regras repetidas
+   - Adicionei foco acessível e prefers-reduced-motion
+   ========================================================================== */
+
 /* =========================================
-   1. VARIÁVEIS GERAIS (Facilita a manutenção)
+   0. RESET E VARIÁVEIS GERAIS
 ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que padding e bordas não quebrem o tamanho dos itens */
+}
+
 :root {
+    /* Paleta / identidade */
     --cor-primaria: rgb(214, 192, 255);
     --cor-primaria-hover: #d6c0ff;
     --cor-fundo: #1d044b;
     --cor-texto: #f0eaff;
     --cor-texto-escuro: rgb(51, 20, 80);
+
+    /* Temas secundários */
+    --bg-dark: #0f0226;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --quaresma: #6a1b9a;
+    --pascoa: #fbc02d;
+    --comum: #2e7d32;
+    --advento: #4a148c;
+    --natal: #ff9100;
+
+    /* Gerais */
     --transicao-suave: all 0.3s ease;
+    --radius-lg: 24px;
+    --radius-md: 8px;
 }
 
 /* =========================================
-   2. CONFIGURAÇÕES BASE E TIPOGRAFIA
+   1. BASE, TIPOGRAFIA E UTILITÁRIOS
 ========================================= */
-.body-quaresma {
+/* Uso flexível: tanto body.quaresma quanto .body-quaresma (compatibilidade) */
+body.quaresma, .body-quaresma {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     color: var(--cor-texto);
     background-color: var(--cor-fundo);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .titulo {
@@ -25,29 +56,7 @@
     align-items: center;
     justify-content: center;
     color: var(--cor-primaria);
-}
-
-.titulo.dois {
-    /* 1. Estilização base do texto */
-    color: #ffffff; /* Texto branco para destacar da luz preta */
-    font-size: 3.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
     text-align: center;
-    letter-spacing: 4px;
-    padding: 30px;
-    
-    /* 2. A "Luz Preta" (Sombra) */
-    /* Cria uma silhueta preta desfocada atrás das letras */
-    text-shadow: 
-        0 0 10px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(0, 0, 0, 0.7),
-        0 0 30px rgba(0, 0, 0, 0.6),
-        0 0 40px rgba(0, 0, 0, 0.5);
-    
-    /* 3. Efeito estético extra (opcional) */
-    position: relative;
-    background: transparent;
 }
 
 .titulo.um {
@@ -55,31 +64,79 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-align: center;
     margin-bottom: 20px;
     color: #ffffff;
     text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.titulo.dois {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    padding: 30px;
+    text-shadow:
+        0 0 10px rgba(0,0,0,0.8),
+        0 0 20px rgba(0,0,0,0.7),
+        0 0 30px rgba(0,0,0,0.6),
+        0 0 40px rgba(0,0,0,0.5);
+    position: relative;
+    background: transparent;
+}
+
 .titulo.tres {
     font-size: 1.1rem;
     font-weight: 400;
-    text-align: center;
     color: var(--cor-primaria-hover);
     font-style: italic;
 }
 
+/* Efeito do título agitado */
+#titulo-agitado {
+    position: relative;
+    padding: 20px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#titulo-agitado::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 130%;
+    background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(214,192,255,0.1) 45%, transparent 75%);
+    filter: blur(25px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.letra-agitada {
+    display: inline-block;
+    color: #ffffff;
+    font-weight: 800;
+    position: relative;
+    z-index: 2;
+    margin: 0 1px;
+    animation: agitaLetra 2s infinite ease-in-out;
+}
+
 /* =========================================
-   3. CONTAINERS E LAYOUT
+   2. CONTAINERS E LAYOUT
 ========================================= */
 .caixa {
-    background: rgba(214, 192, 255, 0.1);
+    background: rgba(214, 192, 255, 0.08);
     border-left: 4px solid var(--cor-primaria);
     border-right: 4px solid var(--cor-primaria);
     padding: 20px;
     margin: 30px auto;
     max-width: 700px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
 }
 
 .dias {
@@ -90,7 +147,6 @@
     font-weight: 700;
     color: var(--cor-primaria);
     margin: 40px 0 15px 0;
-    text-align: center;
     position: relative;
     padding-bottom: 10px;
 }
@@ -113,21 +169,38 @@
     padding-bottom: 50px;
 }
 
-.grid-tempos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+/* =========================================
+   3. VARIANTES DE TEMA (INDEX)
+   - Mantive body.body-index para compatibilidade com seu HTML atual
+========================================= */
+body.body-index {
+    background-image: url(https://imgs.search.brave.com/mW9nkmNn4BjXgVvkSzPUsOeYELZu49BTdhFxL4q3vnk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/Y2FuY2Fvbm92YS5j/b20vY25pbWFnZXMv/Y2FuYWlzL3VwbG9h/ZHMvc2l0ZXMvNi8y/MDE2LzA1L2Zvcm1h/Y2FvX2NvbmZpcmEt/YWxndW1hcy1vcmFj/b2VzLXBhcmEtZmF6/ZXItZGlhbnRlLWRl/LWplc3VzLWV1Y2Fy/aXN0aWNvXzE2MDAt/eC0xMjAwLTYwMHgz/MDAucG5n);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    backdrop-filter: blur(8px);
+    min-height: 100vh;
+    padding-top: 30px;
+}
+
+body.body-index #titulo-agitado {
+    color: #1f1f1f;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(80, 80, 80, 0.75);
+    margin-bottom: 40px;
+}
+
+body.body-index .letra-agitada {
+    color: #ffffff !important;
 }
 
 /* =========================================
-   4. CARDS DE CONTEÚDO
+   4. CARDS DE CONTEÚDO (Glassmorphism, grid, interações)
 ========================================= */
 .card-musica {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(214, 192, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(214, 192, 255, 0.18);
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -135,64 +208,119 @@
 }
 
 .card-musica:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     border-color: var(--cor-primaria);
 }
 
-.card-musica h3 {
-    color: #ffffff;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
+.card-musica h3 { color: #ffffff; margin-bottom: 8px; font-size: 1.1rem; }
+.card-musica p  { font-size: 0.9rem; color: #ccc; margin-bottom: 12px; }
+
+/* Grid de tempos */
+.grid-tempos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.card-musica p {
-    font-size: 0.9rem;
-    color: #ccc;
-    margin-bottom: 12px;
-}
-
+/* Card principal com glass effect */
 .card-tempo {
-    height: 150px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    color: white;
     overflow: hidden;
-}
-
-.card-tempo.advento {
-    background: linear-gradient(45deg, #4b0082, var(--cor-fundo));
-    border: 2px solid var(--cor-primaria-hover);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.4s;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-tempo:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transform: translateY(-12px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.tempo-info h2 {
-    color: white;
-    margin: 0;
-    text-align: center;
+/* Borda colorida por tempo (variantes) */
+.card-tempo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 6px; height: 100%;
+    transition: width 0.3s ease;
+    pointer-events: none;
 }
+.quaresma::before { background: var(--quaresma); }
+.pascoa::before   { background: var(--pascoa); }
+.comum::before    { background: var(--comum); }
 
-.tempo-info p {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.9rem;
-    margin: 5px 0 0;
-}
+.card-tempo:hover::before { width: 10px; }
 
+/* Itens bloqueados */
 .bloqueado {
     opacity: 0.5;
+    filter: grayscale(0.8);
     cursor: not-allowed;
-    filter: grayscale(1);
 }
 
+/* Efeitos específicos do index (fumaça) */
+body.body-index .card-tempo {
+    background-color: #4b0082;
+    border: 3px solid #b9a3e2;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+body.body-index .card-tempo:hover { transform: translateY(-8px); box-shadow: none; }
+
+body.body-index .card-tempo::before {
+    content: '';
+    position: absolute;
+    top: -10%; left: -10%;
+    width: 120%; height: 120%;
+    background: radial-gradient(circle at center, rgba(144, 19, 254, 0.4) 0%, transparent 60%);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    filter: blur(15px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    z-index: -1;
+}
+
+body.body-index .card-tempo::after {
+    content: '';
+    position: absolute;
+    top: -20%; left: -20%;
+    width: 140%; height: 140%;
+    background: radial-gradient(circle at center, rgba(175, 87, 248, 0.3) 0%, transparent 50%);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    filter: blur(20px);
+    transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+    z-index: -2;
+}
+
+body.body-index .card-tempo:hover::before,
+body.body-index .card-tempo:hover::after {
+    transform: scale(1);
+    opacity: 1;
+    animation: fumar 2s infinite alternate ease-in-out;
+}
+
+body.body-index .bloqueado { background-color: #7b5da3; border-color: #c3b1e8; opacity: 0.8; }
+body.body-index .bloqueado:hover::before,
+body.body-index .bloqueado:hover::after { display: none; animation: none; }
+
 /* =========================================
-   5. BOTÕES E LINKS
+   5. BOTÕES, LINKS E INTERATIVIDADE
 ========================================= */
 .oii {
     display: block;
@@ -211,16 +339,9 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.oii:hover {
-    background-color: #ffffff;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(214, 192, 255, 0.3);
-    animation: pulsaFumaca 2s infinite ease-in-out;
-}
-
-.oii:active {
-    transform: scale(0.95);
-}
+.oii:hover { background-color: #ffffff; transform: scale(1.05); box-shadow: 0 6px 12px rgba(214,192,255,0.3); animation: pulsaFumaca 2s infinite ease-in-out; }
+.oii:active { transform: scale(0.95); }
+.oii:focus { outline: 3px solid rgba(214,192,255,0.35); outline-offset: 3px; }
 
 .btn-link {
     font-size: 0.8rem;
@@ -232,11 +353,8 @@
     display: inline-block;
     transition: var(--transicao-suave);
 }
-
-.btn-link:hover {
-    background: var(--cor-primaria);
-    color: var(--cor-texto-escuro);
-}
+.btn-link:hover { background: var(--cor-primaria); color: var(--cor-texto-escuro); }
+.btn-link:focus { outline: 2px solid rgba(214,192,255,0.25); outline-offset: 2px; }
 
 .btn-voltar {
     display: inline-block;
@@ -246,348 +364,47 @@
     font-size: 0.9rem;
     transition: var(--transicao-suave);
 }
+.btn-voltar:hover { color: white; transform: translateX(-5px); }
+.btn-voltar:focus { outline: 2px solid rgba(214,192,255,0.2); }
 
-.btn-voltar:hover {
-    color: white;
-    transform: translateX(-5px);
-}
-
-/* =========================================
-   6. RODAPÉ E CRÉDITOS
-========================================= */
-.rodape-creditos {
-    margin-top: 50px;
-    padding: 30px 20px;
-    text-align: center;
-    color: rgba(214, 192, 255, 0.7);
-    font-size: 0.9rem;
-}
-
-.linha-separadora {
-    width: 60px;
-    height: 2px;
+/* Botão flutuante */
+.btn-planejador {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
     background-color: var(--cor-primaria);
-    margin: 0 auto 20px auto;
-    border-radius: 2px;
-    opacity: 0.3;
+    color: var(--cor-texto-escuro);
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 900;
+    transition: var(--transicao-suave);
 }
-
-.rodape-creditos strong {
-    color: #ffffff;
-    font-weight: 700;
-}
-
-.ano-projeto {
-    margin-top: 8px;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
+.btn-planejador:hover { transform: scale(1.05); background-color: #ffffff; }
+.btn-planejador:focus { outline: 3px solid rgba(214,192,255,0.35); }
 
 /* =========================================
-   7. ANIMAÇÕES E EFEITOS (Brilho e Movimento)
+   6. SISTEMA DE BUSCA, SIDEBAR E RESULTADOS
 ========================================= */
-@keyframes pulsaFumaca {
-    0% { box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5); }
-    50% { box-shadow: 0 0 25px 8px rgba(255, 255, 255, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.8); }
-    100% { box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5); }
-}
+.search-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin: 20px 0; }
 
-
-@keyframes agitaLetra {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33% { transform: translate(1px, -2px) rotate(1deg); }
-    66% { transform: translate(-1px, 1px) rotate(-1deg); }
-}
-
-#titulo-agitado {
-    position: relative;
-    padding: 20px;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-#titulo-agitado::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 110%;
-    height: 130%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, rgba(214, 192, 255, 0.1) 45%, transparent 75%);
-    filter: blur(25px);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.letra-agitada {
-    display: inline-block;
-    color: #ffffff;
-    font-weight: 800;
-    position: relative;
-    z-index: 2;
-    margin: 0 1px;
-    animation: agitaLetra 2s infinite ease-in-out; /* Duração de 2s adicionada para funcionar */
-}
-
-/* =========================================
-   8. RESPONSIVIDADE (Telas Menores)
-========================================= */
-@media screen and (max-width: 768px) {
-    body { 
-    
-        padding: 15px;
-        font-size: 90%; /* Incorporado do seu max-width: 700px original */
-    }
-
-    h3 {
-        font-size: medium; /* Incorporado do seu max-width: 700px original */
-    }
-
-    .titulo.um {
-        font-size: 1.5rem;
-        margin-top: 10px;
-    }
-
-    .caixa {
-        padding: 15px;
-        margin: 20px auto;
-    }
-
-    .titulo.tres {
-        font-size: 0.95rem;
-    }
-
-    .dias {
-        font-size: 1.2rem;
-        margin-top: 30px;
-    }
-
-    .oii {
-        width: 100%;
-        max-width: 300px;
-        padding: 15px;
-        font-size: 1rem;
-    }
-
-    .container-sugestoes {
-        width: 100%;
-    }
-
-    .card-musica {
-        padding: 15px;
-    }
-
-    .card-musica h3 {
-        font-size: 1rem;
-    }
-
-    .rodape-creditos {
-        margin-top: 30px;
-        font-size: 0.8rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .btn-voltar {
-        font-size: 0.8rem;
-    }
-    /* .titulo.um já foi definido no 768px com 1.5rem, não precisa repetir aqui a menos que queira menor ainda */
-}
-
-/* =========================================
-   TEMA DA PÁGINA INICIAL (Fundo Branco, Cards Roxos)
-========================================= */
-
-/* 1. Fundo da página principal branco */
-body.body-index {
-    background-image: url(https://imgs.search.brave.com/mW9nkmNn4BjXgVvkSzPUsOeYELZu49BTdhFxL4q3vnk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/Y2FuY2Fvbm92YS5j/b20vY25pbWFnZXMv/Y2FuYWlzL3VwbG9h/ZHMvc2l0ZXMvNi8y/MDE2LzA1L2Zvcm1h/Y2FvX2NvbmZpcmEt/YWxndW1hcy1vcmFj/b2VzLXBhcmEtZmF6/ZXItZGlhbnRlLWRl/LWplc3VzLWV1Y2Fy/aXN0aWNvXzE2MDAt/eC0xMjAwLTYwMHgz/MDAucG5n);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center; /* Mantém o centro da imagem focado */
-    background-attachment: fixed; /* Opcional: faz a imagem ficar parada enquanto o conteúdo rola */
-    backdrop-filter: blur(8px);
-
-    min-height: 100vh;
-    margin: 0;
-    padding-top: 30px;
-    font-family: 'Montserrat', sans-serif;
-}
-/* 2. Título principal com luz roxa atrás */
-body.body-index #titulo-agitado {
-    color: #1f1f1f; /* Cor da letra */
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(80, 80, 80, 0.753); /* Luz roxa suave atrás */
-    margin-bottom: 40px;
-}
-
-/* Garante que o JS de animação mantenha a cor */
-body.body-index .letra-agitada {
-    color: #ffffff !important;
-}
-
-
-
-/* 3. Estilo dos Cards Roxos */
-body.body-index .card-tempo {
-    background-color: #4b0082; /* Roxo da Quaresma */
-    border: 3px solid #b9a3e2;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efeito ao passar o mouse nos cards */
-body.body-index .card-tempo:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(75, 0, 130, 0.3); /* Sombra roxa no hover */
-}
-
-/* 4. Textos dentro dos cards (Branco/Cinza para destaque) */
-body.body-index .tempo-info h2 {
-    color: #ffffff; /* Letras brancas */
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-}
-
-body.body-index .tempo-info p {
-    color: #dddddd; /* Cinza bem claro/lilás */
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-/* 5. Ajuste fino para os cards bloqueados */
-body.body-index .bloqueado {
-    background-color: #7b5da3; /* Roxo mais claro e apagado */
-    border-color: #c3b1e8;
-    opacity: 0.8;
-}
-
-body.body-index .bloqueado:hover {
-    transform: none; /* Bloqueado não levanta */
-}
-
-
-
-/* =========================================
-   ANIMAÇÃO DE FUMAÇA NOS CARDS (AO HOVER)
-========================================= */
-
-/* Definindo a animação da fumaça */
-@keyframes fumar {
-    0% {
-        transform: scale(0.8) translateY(0);
-        opacity: 0.5;
-        filter: blur(5px);
-    }
-    50% {
-        transform: scale(1.1) translateY(-5px);
-        opacity: 0.8;
-        filter: blur(10px);
-    }
-    100% {
-        transform: scale(0.8) translateY(0);
-        opacity: 0.5;
-        filter: blur(5px);
-    }
-}
-
-/* Base para a fumaça: Posiciona os pseudoelementos */
-body.body-index .card-tempo {
-    position: relative; /* Essencial para posicionar ::before e ::after */
-    overflow: hidden; /* Garante que a fumaça não vaze dos cantos do card */
-    z-index: 1; /* Garante que o card fique acima da fumaça base */
-    transition: all 0.4s ease; /* Transição mais longa para o efeito de fumaça */
-}
-
-/* Desabilitar o box-shadow simples no hover para usar a fumaça */
-body.body-index .card-tempo:hover {
-    box-shadow: none; /* Remove a sombra padrão para não conflitar */
-    transform: translateY(-8px); /* Mantém o card levantado no hover */
-}
-
-
-/* Pseudoelemento para a "fumaça" principal (camada 1) */
-body.body-index .card-tempo::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(circle at center, rgba(144, 19, 254, 0.4) 0%, transparent 60%); /* Roxo mais vibrante */
-    border-radius: 50%; /* Ajuda na forma "esfumaçada" */
-    transform: scale(0); /* Começa invisível */
-    opacity: 0;
-    filter: blur(15px); /* Super desfocado */
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    z-index: -1; /* Fica atrás do conteúdo do card */
-}
-
-/* Pseudoelemento para a "fumaça" secundária (camada 2, mais dinâmica) */
-body.body-index .card-tempo::after {
-    content: '';
-    position: absolute;
-    top: -20%;
-    left: -20%;
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(circle at center, rgba(175, 87, 248, 0.3) 0%, transparent 50%); /* Roxo um pouco mais claro */
-    border-radius: 50%;
-    transform: scale(0);
-    opacity: 0;
-    filter: blur(20px);
-    transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s; /* Pequeno atraso */
-    z-index: -2; /* Fica mais atrás ainda */
-}
-
-/* Efeito ao passar o mouse: Ativa a fumaça */
-body.body-index .card-tempo:hover::before,
-body.body-index .card-tempo:hover::after {
-    transform: scale(1); /* Expande a fumaça */
-    opacity: 1; /* Torna a fumaça visível */
-    animation: fumar 2s infinite alternate ease-in-out; /* Aplica a animação */
-}
-
-/* Pequeno ajuste para a animação ter variação */
-body.body-index .card-tempo:hover::after {
-    animation-delay: 0.2s; /* Desloca o início da animação para criar movimento */
-    animation-duration: 2.5s; /* Duração diferente para mais variação */
-}
-
-/* Garante que os cards bloqueados não tenham a fumaça */
-body.body-index .bloqueado:hover::before,
-body.body-index .bloqueado:hover::after {
-    display: none; /* Desabilita os pseudoelementos nos bloqueados */
-    animation: none; /* Remove a animação */
-}
-
-/* Container para centralizar a barra abaixo do título */
-.search-wrapper {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-/* Estilo inicial da barra (Pequena) */
 .search-bar {
     display: flex;
     align-items: center;
-    background: #ffffff;
-    border: 1px solid #dfe1e5;
-    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28); /* Sombra suave estilo Google */
+    background: hsl(0, 0%, 100%);
+    border: 5px solid rgb(173, 173, 173);
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
     border-radius: 24px;
     padding: 5px 15px;
-    width: 250px; /* Largura inicial pequena */
-    transition: all 0.4s ease; /* Transição suave para a expansão */
+    width: 250px;
+    transition: all 0.4s ease;
     cursor: pointer;
 }
 
-/* Esconde a borda padrão do input */
 .search-bar input {
     border: none;
     outline: none;
@@ -595,142 +412,53 @@ body.body-index .bloqueado:hover::after {
     padding: 8px;
     font-size: 16px;
     font-family: 'Montserrat', sans-serif;
+    background: transparent;
 }
 
-.search-icon {
-    color: #70757a;
-    font-size: 18px;
-}
+.search-icon { color: #70757a; font-size: 18px; }
 
-.search-bar {
-    border: 5px solid rgb(117, 117, 117) !important;
-}
-
-.search-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Preto com 50% de transparência para escurecer */
-    background-color: rgba(0, 0, 0, 0.5); 
-    /* Efeito de vidro jateado/fosco */
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 999;
-    display: none;
-}
-
-/* Garanta que a barra ativa fique acima do fundo escuro */
+/* Barra expandida (estado ativo) */
 .search-bar.active {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 600px;
-    z-index: 1000; /* Maior que o 999 do overlay */
-    background: white;
-}
-.search-results-list {
-    max-height: 400px;
-    overflow-y: auto;
-    width: 100%;
-    background: white;
-    border-radius: 0 0 24px 24px;
-}
-
-.result-item {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.result-item:hover {
-    background: #f1f1f1;
-}
-
-.result-item strong {
-    color: #4b0082; /* Roxo */
-    display: block;
-}
-
-.result-item p {
-    font-size: 0.9em;
-    color: #666;
-    margin: 5px 0 0;
-}
-/* Container que segura a barra e os resultados */
-.search-wrapper {
-    display: flex;
-    flex-direction: column; /* Força um embaixo do outro */
-    align-items: center;
-    width: 100%;
-}
-
-/* Ajuste na barra de pesquisa quando está ativa */
-.search-bar.active {
-    display: flex;
-    flex-direction: column; /* Garante que o input e a lista de resultados fiquem em coluna */
     position: fixed;
     top: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 800px;
+    max-width: 600px;
     z-index: 1000;
     background: white;
+    border: none;
     border-radius: 24px;
     padding: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    flex-direction: column;
 }
 
-/* Lista de resultados */
 .search-results-list {
-    width: 100%; /* Ocupa toda a largura da barra */
-    max-height: 60vh; /* Não deixa a lista ultrapassar a altura da tela */
+    width: 100%;
+    max-height: 60vh;
     overflow-y: auto;
     background: white;
-    border-top: 1px solid #eee; /* Linha sutil para separar o input dos resultados */
+    border-top: 1px solid #eee;
     margin-top: 10px;
+    border-radius: 0 0 24px 24px;
 }
 
-/* Estilo do marca-texto nos resultados */
-mark {
-    background-color: #ffeb3b; /* Amarelo brilhante */
-    color: black;
-    border-radius: 2px;
-    padding: 0 2px;
-}
+.result-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
+.result-item:hover { background: #f1f1f1; }
+.result-item strong { color: #4b0082; display: block; }
+.result-item p { font-size: 0.9em; color: #666; margin: 5px 0 0; }
 
-/* Estilo para quando não houver resultados */
-.no-results {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-    cursor: default !important;
-}
+mark { background-color: #ffeb3b; color: black; border-radius: 2px; padding: 0 2px; }
 
-.no-results p {
-    font-style: italic;
-}
+.no-results { text-align: center; padding: 20px; color: #666; cursor: default !important; }
+.no-results p { font-style: italic; }
 
+/* Overlay (fundo fosco) */
+.search-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 999; }
+.search-overlay.active { display: block; }
 
-/* Fundo fosco */
-.search-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px); /* Efeito de vidro fosco */
-    z-index: 999;
-}
-
-/* Painel Lateral */
+/* Sidebar */
 .search-sidebar {
     position: fixed;
     top: 0;
@@ -739,25 +467,198 @@ mark {
     height: 100%;
     background: white;
     z-index: 1000;
-    transform: translateX(100%); /* Escondido à direita */
+    transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     padding: 20px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
 }
+.search-sidebar.active { transform: translateX(0); }
 
-/* Quando o painel está ativo */
-.search-sidebar.active {
-    transform: translateX(0);
+/* =========================================
+   7. MODAL PLANEJADOR (ajustes e scroll interno)
+========================================= */
+.modal-planejador {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    display: none;
+    flex-direction: column;
+    background: rgba(29, 4, 75, 0.98);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--cor-primaria);
+    border-radius: 20px;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-/* Quando adicionamos a classe 'active' via JS, o fundo aparece */
-.search-overlay.active {
-    display: block;
+.modal-planejador.ativo {
+    display: flex;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.3s ease;
 }
 
-/* Quando adicionamos a classe 'active' via JS, o painel desliza para dentro */
-.search-sidebar.active {
-    transform: translateX(0);
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #ffffff; }
+
+.btn-close {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.btn-close:focus { outline: 2px solid rgba(255,255,255,0.15); border-radius: 6px; }
+
+/* Modal body com rolagem interna */
+.modal-body { flex: 1; overflow-y: auto; padding-right: 10px; margin-top: 10px; }
+
+/* Scrollbar do modal */
+.modal-body::-webkit-scrollbar { width: 6px; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--cor-primaria); border-radius: 10px; }
+.modal-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+
+/* Itens do planejador */
+.momento-missa { background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--cor-primaria); }
+.momento-info { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: var(--cor-primaria); font-weight: bold; }
+
+/* Inputs e autocomplete (container relativo para dropdown) */
+.momento-inputs {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+.input-musica {
+    flex: 3;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.03);
+    color: var(--cor-texto);
+}
+.input-tom {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    color: var(--cor-texto);
+}
+
+/* Lista de autocomplete */
+.autocomplete-resultados {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    z-index: 1100;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+.autocomplete-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; color: #333; font-size: 0.9rem; transition: background 0.2s; }
+.autocomplete-item:hover { background-color: var(--cor-primaria); color: white; }
+
+/* Overlay ativo versão melhorada */
+.search-overlay.ativo { display: block; backdrop-filter: blur(8px); background: rgba(0,0,0,0.7); }
+
+/* =========================================
+   8. RODAPÉ E CRÉDITOS
+========================================= */
+.rodape-creditos {
+    margin-top: 50px;
+    padding: 30px 20px;
+    text-align: center;
+    color: rgba(214, 192, 255, 0.7);
+    font-size: 0.9rem;
+}
+.linha-separadora { width: 60px; height: 2px; background-color: var(--cor-primaria); margin: 0 auto 20px auto; border-radius: 2px; opacity: 0.3; }
+.rodape-creditos strong { color: #ffffff; font-weight: 700; }
+.ano-projeto { margin-top: 8px; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+
+/* =========================================
+   9. ANIMAÇÕES (KEYFRAMES)
+========================================= */
+@keyframes pulsaFumaca {
+    0% { box-shadow: 0 0 15px 2px rgba(255,255,255,0.5), inset 0 0 10px rgba(255,255,255,0.5); }
+    50% { box-shadow: 0 0 25px 8px rgba(255,255,255,0.8), inset 0 0 20px rgba(255,255,255,0.8); }
+    100% { box-shadow: 0 0 15px 2px rgba(255,255,255,0.5), inset 0 0 10px rgba(255,255,255,0.5); }
+}
+
+@keyframes agitaLetra {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(1px, -2px) rotate(1deg); }
+    66% { transform: translate(-1px, 1px) rotate(-1deg); }
+}
+
+@keyframes fumar {
+    0% { transform: scale(0.8) translateY(0); opacity: 0.5; filter: blur(5px); }
+    50% { transform: scale(1.1) translateY(-5px); opacity: 0.8; filter: blur(10px); }
+    100% { transform: scale(0.8) translateY(0); opacity: 0.5; filter: blur(5px); }
+}
+
+/* =========================================
+   10. RESPONSIVIDADE / MEDIA QUERIES
+========================================= */
+@media screen and (max-width: 768px) {
+    body { padding: 15px; font-size: 90%; }
+
+    h3 { font-size: medium; }
+
+    .titulo.um { font-size: 1.5rem; margin-top: 10px; }
+
+    .caixa { padding: 15px; margin: 20px auto; }
+
+    .titulo.tres { font-size: 0.95rem; }
+
+    .dias { font-size: 1.2rem; margin-top: 30px; }
+
+    .oii { width: 100%; max-width: 300px; padding: 15px; font-size: 1rem; }
+
+    .container-sugestoes { width: 100%; }
+
+    .card-musica { padding: 15px; }
+    .card-musica h3 { font-size: 1rem; }
+
+    .rodape-creditos { margin-top: 30px; font-size: 0.8rem; }
+
+    .search-sidebar { width: 100%; }
+}
+
+@media screen and (max-width: 600px) {
+    .modal-planejador { width: 95%; padding: 15px; max-height: 90vh; overflow-y: auto; }
+
+    .momento-inputs { flex-direction: column; gap: 5px; }
+
+    .input-tom { width: 100%; text-align: left; }
+
+    .btn-planejador { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 0.9rem; }
+
+    .momento-info label { font-size: 0.95rem; }
+}
+
+@media screen and (max-width: 480px) {
+    .btn-voltar { font-size: 0.8rem; }
+}
+
+/* =========================================
+   11. ACESSIBILIDADE / PREFERENCES
+========================================= */
+:focus { outline: none; }
+:focus-visible { outline: 3px solid rgba(214,192,255,0.25); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
