@@ -1,17 +1,31 @@
-// 1. Função de Normalização (Colocada fora para ser global)
+/**
+ * PROJETO: Músicas para o Dia
+ * VERSÃO: 3.0 - Acordeão Profissional + Busca Inteligente + Correção de Caminhos
+ */
+
+// 1. UTILITÁRIOS: Limpeza de texto (Acentos e Símbolos)
 function normalizarTexto(texto) {
     if (!texto) return "";
     return texto
         .toLowerCase()
-        .normalize("NFD")                             // Decompõe acentos
-        .replace(/[\u0300-\u036f]/g, "")           // Remove os acentos
-        .replace(/[ºª°.]/g, "")                    // Remove símbolos específicos
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[ºª°.]/g, "")
         .trim();
+}
+
+// 2. UTILITÁRIOS: Debounce (Performance)
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     
-    // --- 1. ANIMAÇÃO DO TÍTULO ---
+    // --- PARTE A: ANIMAÇÃO DO TÍTULO ---
     const titulo = document.getElementById("titulo-agitado");
     if (titulo) {
         const texto = titulo.textContent;
@@ -30,18 +44,53 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // --- 2. CONFIGURAÇÃO DA BARRA DE PESQUISA ---
+    // --- PARTE B: LÓGICA DO ACORDEÃO (ABRIR/FECHAR) ---
+    const botoesCategoria = document.querySelectorAll('.btn-categoria');
+    const botoesMusica = document.querySelectorAll('.btn-titulo-musica');
+
+    botoesCategoria.forEach(botao => {
+        botao.addEventListener('click', function() {
+            const lista = this.nextElementSibling;
+            const seta = this.querySelector('.seta');
+            lista.classList.toggle('ativo');
+            if (seta) seta.classList.toggle('seta-girada');
+        });
+    });
+
+    botoesMusica.forEach(botao => {
+        botao.addEventListener('click', function() {
+            const letra = this.nextElementSibling;
+            letra.classList.toggle('ativo');
+            this.style.backgroundColor = letra.classList.contains('ativo') 
+                ? 'rgba(214, 192, 255, 0.2)' 
+                : 'transparent';
+        });
+    });
+
+    // --- PARTE C: CONFIGURAÇÃO DA BUSCA ---
     const searchBar = document.getElementById('searchBar');
     const searchInput = document.getElementById('searchInput');
     const searchOverlay = document.getElementById('searchOverlay');
     const body = document.body;
+    let bancoDeMusicas = [];
 
     const resultsContainer = document.createElement('div');
     resultsContainer.id = 'search-results';
     resultsContainer.className = 'search-results-list';
     searchBar?.appendChild(resultsContainer);
 
-    let bancoDeMusicas = [];
+    const estaNaSubpasta = window.location.pathname.includes('/quaresma/') || window.location.pathname.includes('/pascoa/');
+
+    async function carregarBancoDeMusicas() {
+        try {
+            const path = estaNaSubpasta ? '../musicas.json' : 'musicas.json';
+            const response = await fetch(path);
+            if (!response.ok) throw new Error("Erro JSON");
+            bancoDeMusicas = await response.json();
+        } catch (err) {
+            console.error("Erro ao carregar banco:", err);
+        }
+    }
 
     searchBar?.addEventListener('click', () => {
         if (!searchBar.classList.contains('active')) {
@@ -61,78 +110,36 @@ document.addEventListener("DOMContentLoaded", function() {
         searchInput.value = "";
     });
 
-    // --- 3. ROBÔ DE BUSCA (SCRAPING) ---
-    async function carregarBancoDeMusicas() {
-        const paginas = ['domingo1.html', 'domingo2.html', 'domingo3.html', 'domingo4.html', 'domingo5.html', 'extras.html'];
-
-        for (let url of paginas) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) continue;
-                const htmlText = await response.text();
-                const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-                
-                const titulos = doc.querySelectorAll('h3');
-                titulos.forEach(titulo => {
-                    let letraCompleta = "";
-                    let proximo = titulo.nextElementSibling;
-                    while (proximo && proximo.tagName === 'P') {
-                        letraCompleta += proximo.textContent + " ";
-                        proximo = proximo.nextElementSibling;
-                    }
-                    bancoDeMusicas.push({
-                        titulo: titulo.textContent,
-                        letra: letraCompleta,
-                        link: url
-                    });
-                });
-            } catch (err) { console.error("Erro ao ler:", url); }
-        }
-    }
-
-    // --- 4. FILTRAGEM COM NORMALIZAÇÃO ---
-    searchInput?.addEventListener('input', () => {
+    searchInput?.addEventListener('input', debounce(() => {
         const termoOriginal = searchInput.value;
         const termoNorm = normalizarTexto(termoOriginal);
         resultsContainer.innerHTML = "";
 
         if (termoNorm.length < 2) return;
 
-        // Filtra comparando as versões normalizadas
         const resultados = bancoDeMusicas.filter(m => 
             normalizarTexto(m.titulo).includes(termoNorm) || 
             normalizarTexto(m.letra).includes(termoNorm)
         );
 
-        if (resultados.length === 0) {
-            resultsContainer.innerHTML = `
-                <div class="result-item no-results">
-                    <p>🔍 Nenhuma música encontrada para "${termoOriginal}"</p>
-                </div>`;
-            return;
-        }
-
         resultados.forEach(m => {
             const item = document.createElement('div');
             item.className = 'result-item';
             
-            // Lógica de destaque visual
-            const regex = new RegExp(`(${termoOriginal.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')})`, 'gi');
+            const regex = new RegExp(`(${termoOriginal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
             const tituloDestacado = m.titulo.replace(regex, '<mark>$1</mark>');
             
-            const index = normalizarTexto(m.letra).indexOf(termoNorm);
-            let trecho = index > -1 
-                ? "..." + m.letra.substring(Math.max(0, index - 30), index + 50) + "..." 
-                : m.letra.substring(0, 70) + "...";
-            const trechoDestacado = trecho.replace(regex, '<mark>$1</mark>');
-
-            item.innerHTML = `
-                <strong>${tituloDestacado}</strong>
-                <p>${trechoDestacado}</p>
-            `;
+            item.innerHTML = `<strong>${tituloDestacado}</strong>`;
             
-            item.onclick = () => window.location.href = m.link;
+            item.onclick = () => {
+                let linkFinal = m.link;
+                if (estaNaSubpasta) {
+                    if (linkFinal.startsWith('quaresma/')) linkFinal = linkFinal.replace('quaresma/', '');
+                    else if (!linkFinal.startsWith('../')) linkFinal = '../' + linkFinal;
+                }
+                window.location.href = linkFinal;
+            };
             resultsContainer.appendChild(item);
         });
-    });
+    }, 300));
 });

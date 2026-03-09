@@ -1,112 +1,116 @@
-// 1. Movi a função para fora para organização e clareza
-function normalizarTexto(texto) {
-    if (!texto) return "";
-    return texto
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") 
-        .replace(/[ºª°.]/g, "")
-        .trim();
-}
+/**
+ * PLANEJADOR DE MISSA - Versão Corrigida e Blindada
+ */
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Seleção de Elementos
     const btnPlanejador = document.getElementById("btn-planejador");
     const modalPlanejador = document.getElementById("modal-planejador");
     const overlayPlanejador = document.getElementById("overlay-planejador");
     const btnFechar = document.getElementById("fechar-planejador");
     const btnPdf = document.getElementById("btn-preparar-pdf");
     
-    let bancoDeMusicas = []; 
+    let bancoDeMusicas = [];
+    let resultadosDiv = null;
 
-    // --- CONTROLE DO MODAL ---
+    // --- 1. FUNÇÕES DO MODAL (ABRIR/FECHAR) ---
     function abrirModal() {
-        modalPlanejador.classList.add("ativo");
-        overlayPlanejador.classList.add("ativo");
-        document.body.style.overflow = "hidden";
-        if (bancoDeMusicas.length === 0) carregarBancoDeMusicas();
+        console.log("Tentando abrir o modal..."); // Log para teste
+        if (modalPlanejador && overlayPlanejador) {
+            modalPlanejador.classList.add("ativo");
+            overlayPlanejador.classList.add("ativo");
+            document.body.style.overflow = "hidden"; // Trava o scroll do fundo
+            
+            // Carrega os dados apenas se o banco estiver vazio
+            if (bancoDeMusicas.length === 0) carregarDados();
+        } else {
+            console.error("Erro: Elementos do modal não encontrados no HTML.");
+        }
     }
 
     function fecharModal() {
         modalPlanejador.classList.remove("ativo");
         overlayPlanejador.classList.remove("ativo");
         document.body.style.overflow = "auto";
+        if (resultadosDiv) resultadosDiv.style.display = 'none';
     }
 
+    // Eventos de Clique
     btnPlanejador?.addEventListener("click", abrirModal);
     btnFechar?.addEventListener("click", fecharModal);
     overlayPlanejador?.addEventListener("click", fecharModal);
 
-    modalPlanejador?.addEventListener("click", (e) => e.stopPropagation());
-
-    // --- BUSCA DE MÚSICAS ---
-    async function carregarBancoDeMusicas() {
-        const paginas = ['domingo1.html', 'domingo2.html', 'domingo3.html', 'domingo4.html', 'domingo5.html', 'extras.html'];
-        for (let url of paginas) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) continue;
-                const htmlText = await response.text();
-                const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-                const cards = doc.querySelectorAll('.card-musica');
-                cards.forEach(card => {
-                    const titulo = card.querySelector('h3')?.textContent.trim() || "";
-                    const letra = card.querySelector('p')?.innerHTML || ""; 
-                    if (titulo) bancoDeMusicas.push({ titulo, letra });
-                });
-            } catch (err) { console.warn("Erro ao carregar: " + url); }
+    // --- 2. CARREGAR DADOS DO JSON ---
+    async function carregarDados() {
+        try {
+            const estaNaSubpasta = window.location.pathname.includes('/quaresma/') || window.location.pathname.includes('/pascoa/');
+            const path = estaNaSubpasta ? '../musicas.json' : 'musicas.json';
+            
+            const res = await fetch(path);
+            if (!res.ok) throw new Error("Não foi possível carregar o musicas.json");
+            bancoDeMusicas = await res.json();
+            console.log("Banco carregado no Planejador!");
+        } catch (e) {
+            console.error("Erro no fetch do Planejador:", e);
         }
     }
 
-    // --- AUTOCOMPLETE ---
-    const momentos = document.querySelectorAll(".momento-missa");
+    // --- 3. LOGICA DE BUSCA POR CATEGORIA ---
+    const inputsMusica = document.querySelectorAll('.input-musica');
+    
+    inputsMusica.forEach(input => {
+        input.addEventListener('input', debounce(function() {
+            const termo = normalizarTexto(this.value);
+            const categoriaAlvo = this.getAttribute('data-categoria');
+            
+            if (!resultadosDiv) {
+                resultadosDiv = document.createElement('div');
+                resultadosDiv.className = 'sugestoes-planejador';
+                document.body.appendChild(resultadosDiv);
+            }
 
-    momentos.forEach((momento) => {
-        const inputMusica = momento.querySelector(".input-musica");
-        const checkbox = momento.querySelector(".check-momento");
-        const dropdown = document.createElement("div");
-        dropdown.className = "autocomplete-resultados";
-        inputMusica.parentNode.appendChild(dropdown);
-
-        inputMusica.addEventListener("input", function() {
-            const termo = this.value;
-            dropdown.innerHTML = "";
+            resultadosDiv.innerHTML = "";
 
             if (termo.length < 2) {
-                dropdown.style.display = "none";
+                resultadosDiv.style.display = 'none';
                 return;
             }
 
-            const termoNorm = normalizarTexto(termo);
-            const filtradas = bancoDeMusicas.filter(m => 
-                normalizarTexto(m.titulo).includes(termoNorm)
-            );
+            // Filtra por Texto e pela Categoria do Input
+            const filtrados = bancoDeMusicas.filter(m => {
+                const bateTexto = normalizarTexto(m.titulo).includes(termo);
+                const bateCategoria = m.categoria === categoriaAlvo;
+                return bateTexto && bateCategoria;
+            });
 
-            if (filtradas.length > 0) {
-                dropdown.style.display = "block";
-                filtradas.forEach(musica => {
-                    const item = document.createElement("div");
-                    item.className = "autocomplete-item";
-                    item.textContent = musica.titulo;
-                    item.addEventListener("mousedown", (e) => {
-                        e.preventDefault();
-                        inputMusica.value = musica.titulo;
-                        inputMusica.setAttribute("data-letra", musica.letra);
-                        if (checkbox) checkbox.checked = true; 
-                        dropdown.style.display = "none";
+            if (filtrados.length > 0) {
+                const rect = this.getBoundingClientRect();
+                resultadosDiv.style.top = `${rect.bottom + window.scrollY}px`;
+                resultadosDiv.style.left = `${rect.left}px`;
+                resultadosDiv.style.width = `${rect.width}px`;
+                resultadosDiv.style.display = 'block';
+
+                filtrados.forEach(musica => {
+                    const item = document.createElement('div');
+                    item.className = 'item-sugestao';
+                    item.innerHTML = `<strong>${musica.titulo}</strong>`;
+                    item.onclick = () => {
+                        this.value = musica.titulo;
+                        this.setAttribute('data-letra', musica.letra);
+                        resultadosDiv.style.display = 'none';
                         salvarNoStorage();
-                    });
-                    dropdown.appendChild(item);
+                    };
+                    resultadosDiv.appendChild(item);
                 });
-            } else { dropdown.style.display = "none"; }
-        });
-
-        inputMusica.addEventListener("blur", () => {
-            setTimeout(() => { dropdown.style.display = "none"; }, 200);
-        });
+            } else {
+                resultadosDiv.style.display = 'none';
+            }
+        }, 300));
     });
 
-    // --- STORAGE ---
+    // --- 4. SALVAMENTO (LOCALSTORAGE) ---
     function salvarNoStorage() {
+        const momentos = document.querySelectorAll(".momento-missa");
         const dados = Array.from(momentos).map(m => {
             const input = m.querySelector(".input-musica");
             return {
@@ -121,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function carregarDoStorage() {
         const salvos = JSON.parse(localStorage.getItem("meuRepertorioMissa") || "[]");
+        const momentos = document.querySelectorAll(".momento-missa");
         momentos.forEach((m, i) => {
             if (salvos[i]) {
                 const input = m.querySelector(".input-musica");
@@ -132,16 +137,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // AQUI O AJUSTE: 'change' captura cliques no checkbox e seleção de tom melhor que 'input'
-    modalPlanejador?.addEventListener("change", salvarNoStorage);
-    modalPlanejador?.addEventListener("input", salvarNoStorage);
-    
     carregarDoStorage();
 
+    // Redirecionar para o PDF
     btnPdf?.addEventListener("click", function() {
         salvarNoStorage();
-        const pathSegments = window.location.pathname.split('/').filter(s => s !== "");
-        const estaNaSubpasta = pathSegments.length > 0 && !window.location.pathname.endsWith('index.html');
-        window.location.href = estaNaSubpasta ? "../gerar_pdf.html" : "gerar_pdf.html";
+        const estaNaSubpasta = window.location.pathname.includes('/quaresma/') || window.location.pathname.includes('/pascoa/');
+        window.location.href = estaNaSubpasta ? '../gerar_pdf.html' : 'gerar_pdf.html';
     });
 });

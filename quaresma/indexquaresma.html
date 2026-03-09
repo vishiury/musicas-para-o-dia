@@ -87,29 +87,8 @@
                 <label>Entrada</label>
             </div>
             <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-musica" data-categoria="entrada" placeholder="Nome da música escolhida...">
                 <input type="text" class="input-tom" placeholder="Tom (ex: C, F#)">
-            </div>
-        </div>
-
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Ato Penitencial</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-         <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>gloria</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
-                <input type="text" class="input-tom" placeholder="Tom">
             </div>
         </div>
         <div class="momento-missa">
@@ -118,7 +97,7 @@
                 <label>Aclamação</label>
             </div>
             <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-musica" data-categoria="aclamacao" placeholder="Nome da música escolhida...">
                 <input type="text" class="input-tom" placeholder="Tom">
             </div>
         </div>
@@ -128,7 +107,7 @@
                 <label>Ofertório</label>
             </div>
             <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-musica" data-categoria="ofertorio" placeholder="Nome da música escolhida...">
                 <input type="text" class="input-tom" placeholder="Tom">
             </div>
         </div>
@@ -138,7 +117,7 @@
                 <label>Comunhão</label>
             </div>
             <div class="momento-inputs">
-                <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-musica" data-categoria="comunhao" placeholder="Nome da música escolhida...">
                 <input type="text" class="input-tom" placeholder="Tom">
             </div>
         </div>
@@ -149,6 +128,16 @@
             </div>
             <div class="momento-inputs">
                 <input type="text" class="input-musica" placeholder="Nome da música escolhida...">
+                <input type="text" class="input-tom" placeholder="Tom">
+            </div>
+        </div>
+        <div class="momento-missa">
+            <div class="momento-info">
+                <input type="checkbox" class="check-momento">
+                <label>Extra</label>
+            </div>
+            <div class="momento-inputs">
+                <input type="text" class="input-musica" data-categoria="extras" placeholder="Nome da música escolhida...">
                 <input type="text" class="input-tom" placeholder="Tom">
             </div>
         </div>

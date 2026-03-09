@@ -6,7 +6,25 @@
     <title>Repertório da Missa - PDF</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="../animacao_titulo.js"></script>
+    <script src="../planejador.js"></script>
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../imagens/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../imagens/favicon-16x16.png">
+    <link rel="manifest" href="../imagens/site.webmanifest">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7YP8E3T4RV');
+    </script>
     <style>
         :root {
             --cor-primaria: #d6c0ff;
@@ -146,66 +164,52 @@
     </div>
 
     <script>
-        function carregarRepertorio() {
-            const listaContainer = document.getElementById('lista-musicas');
-            const avisoContainer = document.getElementById('status-aviso');
-            const btnDownload = document.getElementById('btn-download');
-            
-            // Dados vindos do localStorage
-            const dados = JSON.parse(localStorage.getItem('meuRepertorioMissa') || '[]');
-            const nomesMomentos = ["Entrada", "Ato Penitencial", "Glória" , "Aclamação", "Ofertório", "Santo / Cordeiro", "Comunhão", "Pós-Comunhão / Final"];
+    function carregarRepertorio() {
+    const listaContainer = document.getElementById('lista-musicas');
+    const dados = JSON.parse(localStorage.getItem('meuRepertorioMissa') || '[]');
+    
+    listaContainer.innerHTML = "";
 
-            // Filtrar apenas o que o utilizador MARCOU com o checkbox
-            const itensMarcados = dados.filter(item => item.check === true);
+    const marcados = dados.filter(item => item.check && item.musica.trim() !== "");
 
-            if (itensMarcados.length === 0) {
-                avisoContainer.innerHTML = `
-                    <div class="aviso-vazio">
-                        <strong>Aviso:</strong> Não selecionou nenhum momento no planeador. 
-                        <br>Marque os "quadradinhos" das músicas que deseja incluir no PDF.
-                    </div>`;
-                btnDownload.disabled = true;
-                listaContainer.innerHTML = "<p style='text-align:center; color:#999;'>Nenhuma música selecionada.</p>";
-                return;
-            }
+    marcados.forEach(item => {
+        const section = document.createElement('div');
+        section.className = 'item-repertorio';
+        
+        // Melhora a formatação: se não tiver letra, avisa. Se tiver, troca as quebras de linha por <br>
+        const textoLetra = item.letra && item.letra.trim() !== "" 
+            ? item.letra.replace(/\n/g, '<br>') 
+            : '<i style="color: #999;">Letra não selecionada ou não disponível.</i>';
 
-            // Se houver itens, gerar o conteúdo
-            dados.forEach((item, index) => {
-                if (item.check) {
-                    const section = document.createElement('div');
-                    section.className = 'item-repertorio';
-                    const momentoNome = nomesMomentos[index] || "Momento Extra";
+        section.innerHTML = `
+            <div style="margin-bottom: 35px; page-break-inside: avoid;">
+                <h2 style="color: #1d044b; border-bottom: 2px solid #d6c0ff; margin-bottom: 8px;">${item.nomeMomento}</h2>
+                <p><strong>Música:</strong> ${item.musica} | <strong>Tom:</strong> ${item.tom || '---'}</p>
+                <div class="letra-musica" style="white-space: pre-wrap; line-height: 1.5; margin-top: 10px;">
+                    ${textoLetra}
+                </div>
+            </div>
+        `;
+        listaContainer.appendChild(section);
+    });
 
-                    section.innerHTML = `
-                        <h2>${momentoNome}</h2>
-                        <div class="info-musica">
-                            <span>Música: ${item.musica || '---'}</span>
-                            <span>Tom: ${item.tom || 'N/A'}</span>
-                        </div>
-                        <div class="letra-musica">${item.letra || '<i>Letra não encontrada.</i>'}</div>
-                    `;
-                    listaContainer.appendChild(section);
-                }
-            });
+    document.getElementById('data-atual').textContent = new Date().toLocaleDateString('pt-BR', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+}
 
-            document.getElementById('data-atual').textContent = new Date().toLocaleDateString('pt-PT', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-        }
+    function gerarPDF() {
+        const elemento = document.getElementById('conteudo-pdf');
+        const opcoes = {
+            margin: [10, 10, 10, 10],
+            filename: 'Meu_Repertorio.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opcoes).from(elemento).save();
+    }
 
-        function gerarPDF() {
-            const elemento = document.getElementById('conteudo-pdf');
-            const opcoes = {
-                margin:       [10, 0, 10, 0], // Margens [topo, esquerda, baixo, direita]
-                filename:     'Repertorio_Missa.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opcoes).from(elemento).save();
-        }
-
-        window.onload = carregarRepertorio;
-    </script>
+    window.onload = carregarRepertorio;
+</script>
 </body>
 </html>
