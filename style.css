@@ -547,15 +547,27 @@ mark { background-color: #ffeb3b; color: black; border-radius: 2px; padding: 0 2
     background: rgba(255,255,255,0.03);
     color: var(--cor-texto);
 }
+/* ---- CAMPO DE TOM COM DESTAQUE ---- */
 .input-tom {
-    flex: 1;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    text-align: center;
-    background: rgba(255,255,255,0.03);
-    color: var(--cor-texto);
+  flex: 1;
+  max-width: 80px; /* Não deixa ele ficar gigante no computador */
+  padding: 8px;
+  text-align: center;
+  font-weight: 800; /* Letra mais grossa */
+  font-size: 1.1rem;
+  text-transform: uppercase; /* Força a letra a ficar Maiúscula (C, D, Em) */
+  background: rgba(214, 192, 255, 0.15); /* Fundo roxinho claro */
+  color: var(--cor-primaria);
+  border: 1px solid rgba(214, 192, 255, 0.3);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-tom:focus {
+  background: rgba(214, 192, 255, 0.3);
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 10px rgba(214, 192, 255, 0.4);
 }
 
 /* Lista de autocomplete */
@@ -1029,4 +1041,36 @@ body.body-index .bloqueado:hover::after { display: none; animation: none; }
 
 #modal-planejador.ativo, #overlay-planejador.ativo {
     display: block; /* Mostra quando tem a classe .ativo */
+}
+
+/* ---- CHECKBOX PERSONALIZADO (Mais elegante) ---- */
+.momento-info input[type="checkbox"] {
+    appearance: none; /* Esconde o padrão do navegador */
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--cor-primaria);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Quando está marcado */
+.momento-info input[type="checkbox"]:checked {
+    background-color: var(--cor-primaria);
+    box-shadow: 0 0 10px rgba(214, 192, 255, 0.5);
+}
+
+/* O símbolo de "V" (check) */
+.momento-info input[type="checkbox"]:checked::after {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--cor-fundo);
+    font-size: 14px;
+    font-weight: 900;
 }
