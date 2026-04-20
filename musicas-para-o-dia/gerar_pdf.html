@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repertório - PDF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root { --cor-primaria: #d6c0ff; --cor-fundo: #1d044b; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; color: #333; }
+        .no-print { background-color: var(--cor-fundo); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; justify-content: center; gap: 10px; }
+        .btn-acao { background-color: var(--cor-primaria); color: #1d044b; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+        .btn-acao:disabled { background-color: #666; color: #ccc; cursor: not-allowed; }
+        #status-aviso { margin: 20px auto; max-width: 600px; text-align: center; font-weight: bold; padding: 15px; border-radius: 10px; }
+        .loading { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .erro { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        #conteudo-pdf { background: white; width: 210mm; min-height: 297mm; margin: 20px auto; padding: 20mm; box-sizing: border-box; }
+        .pdf-header { text-align: center; border-bottom: 2px solid var(--cor-fundo); margin-bottom: 30px; padding-bottom: 15px; }
+        .item-repertorio { margin-bottom: 30px; page-break-inside: avoid; }
+        .item-repertorio h2 { font-size: 1.1rem; color: #1d044b; margin: 0 0 8px 0; text-transform: uppercase; border-left: 4px solid var(--cor-fundo); padding-left: 10px; }
+        .info-musica { font-weight: bold; background: #f9f9f9; padding: 5px 10px; margin-bottom: 10px; border-radius: 5px; }
+        .letra-musica { white-space: pre-wrap; line-height: 1.5; font-size: 0.95rem; margin-left: 14px; }
+        .erro-detetive { color: #d93025; background-color: #fce8e6; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.9rem; border: 1px dashed #d93025;}
+        @media (max-width: 210mm) { #conteudo-pdf { width: 95%; padding: 10mm; } }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" id="barra-botoes">
+        <button class="btn-acao" onclick="window.history.back()">⬅ Voltar</button>
+        <button id="btn-download" class="btn-acao" onclick="gerarPDF()" disabled>📥 Baixar PDF</button>
+    </div>
+
+    <div id="status-aviso"></div>
+
+    <div id="conteudo-pdf">
+        <!-- NOVO CABEÇALHO PROFISSIONAL -->
+        <header class="pdf-header">
+            <div style="font-size: 24px; color: #1d044b; margin-bottom: 5px;">✝</div>
+            <h1 id="texto-paroquia" style="margin:0; font-size: 1.4rem; color:#1d044b; text-transform: uppercase;">Repertório da Santa Missa</h1>
+            <p id="texto-data-missa" style="margin:5px 0; font-size: 1.1rem; font-weight:bold; color: #555;">Liturgia Diária</p>
+            <p id="data-geracao" style="margin:5px 0 0 0; font-size: 0.8rem; color: #888;"></p>
+        </header>
+
+        <div id="lista-musicas"></div>
+    </div>
+
+    <script>
+        function normalizarTexto(texto) {
+            return (texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        function extrairTextoDaLetra(elementoHTML) {
+            let html = elementoHTML.innerHTML;
+            html = html.replace(/<br\s*[\/]?>/gi, "\n"); 
+            html = html.replace(/<\/p>/gi, "\n"); 
+            let divTemp = document.createElement("div");
+            divTemp.innerHTML = html;
+            return divTemp.textContent.trim();
+        }
+
+        const repertorioSalvo = JSON.parse(localStorage.getItem("meuRepertorioMissa") || "[]");
+        const cachePaginas = {}; 
+
+        async function iniciarProcesso() {
+            const listaContainer = document.getElementById("lista-musicas");
+            const aviso = document.getElementById("status-aviso");
+            const btnDownload = document.getElementById("btn-download");
+            
+            const itensMarcados = repertorioSalvo.filter(i => i.check);
+            if (itensMarcados.length === 0) {
+                aviso.className = "erro";
+                aviso.innerHTML = "Nenhuma música marcada no planejador!";
+                return;
+            }
+
+            aviso.className = "loading";
+            aviso.innerHTML = "⏳ Investigando e montando letras... Aguarde.";
+
+            const nomesMomentos = ["Entrada", "Aclamação", "Ofertório", "Comunhão", "Final", "Extra"];
+            
+            for (let i = 0; i < repertorioSalvo.length; i++) {
+                const item = repertorioSalvo[i];
+                if (!item.check) continue;
+
+                let letraFinal = "";
+                let isErro = false;
+
+                if (!item.link || item.link.trim() === "") {
+                    isErro = true;
+                    letraFinal = "🛑 ERRO 1: Link não salvo. Volte ao planejador, apague a música e clique nela pela sugestão flutuante.";
+                } else {
+                    try {
+                        let htmlPagina = cachePaginas[item.link];
+                        
+                        if (!htmlPagina) {
+                            const resp = await fetch(item.link);
+                            if (!resp.ok) throw new Error(`Página não encontrada`);
+                            htmlPagina = await resp.text();
+                            cachePaginas[item.link] = htmlPagina;
+                        }
+
+                        if (htmlPagina) {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(htmlPagina, "text/html");
+                            
+                            const termoBusca = normalizarTexto(item.musica);
+                            const todosBotoes = doc.querySelectorAll(".btn-titulo-musica");
+                            let botaoCorreto = null;
+
+                            const palavrasBusca = termoBusca.split(" ").filter(p => p.length > 2).slice(0, 3);
+
+                            for (let btn of todosBotoes) {
+                                const tituloBtn = normalizarTexto(btn.textContent);
+                                const achouPalavras = palavrasBusca.length > 0 && palavrasBusca.every(p => tituloBtn.includes(p));
+
+                                if (tituloBtn.includes(termoBusca) || termoBusca.includes(tituloBtn) || achouPalavras) {
+                                    botaoCorreto = btn;
+                                    break;
+                                }
+                            }
+
+                            if (botaoCorreto) {
+                                const divLetra = botaoCorreto.nextElementSibling;
+                                if (divLetra && divLetra.classList.contains("letra-musica-oculta")) {
+                                    letraFinal = extrairTextoDaLetra(divLetra);
+                                    if(letraFinal.length < 5) {
+                                        isErro = true;
+                                        letraFinal = "🛑 ERRO 4: Achei a div da letra, mas estava vazia.";
+                                    }
+                                } else {
+                                    isErro = true;
+                                    letraFinal = "🛑 ERRO 3: Achei o título, mas a letra não está dentro da tag correta.";
+                                }
+                            } else {
+                                isErro = true;
+                                letraFinal = `🛑 ERRO 2: Título não encontrado dentro da página da música.`;
+                            }
+                        }
+                    } catch (erro) {
+                        isErro = true;
+                        letraFinal = `🛑 ERRO FATAL: Falha de conexão. Lembre-se de abrir usando Live Server.`;
+                    }
+                }
+
+                if (!isErro && (!letraFinal || letraFinal.length < 5)) {
+                    letraFinal = item.letra && item.letra !== "undefined" ? item.letra : "Aclamação / Resposta Curta.";
+                }
+
+                const div = document.createElement("div");
+                div.className = "item-repertorio";
+                const classeDaLetra = isErro ? 'letra-musica erro-detetive' : 'letra-musica';
+
+                div.innerHTML = `
+                    <h2>${nomesMomentos[i] || "Momento"}</h2>
+                    <div class="info-musica">🎵 ${item.musica} | Tom: ${item.tom || "-"}</div>
+                    <div class="${classeDaLetra}">${letraFinal.replace(/\n/g, "<br>")}</div>
+                `;
+                listaContainer.appendChild(div);
+            }
+
+            // AQUI ESTÁ A CORREÇÃO MÁGICA DO CABEÇALHO:
+            const cabecalhoSalvo = JSON.parse(localStorage.getItem("meuCabecalhoMissa") || "{}");
+            
+            if (cabecalhoSalvo.paroquia && cabecalhoSalvo.paroquia.trim() !== "") {
+                document.getElementById("texto-paroquia").textContent = cabecalhoSalvo.paroquia;
+            }
+            if (cabecalhoSalvo.dataMissa && cabecalhoSalvo.dataMissa.trim() !== "") {
+                document.getElementById("texto-data-missa").textContent = cabecalhoSalvo.dataMissa;
+            }
+
+            // Adiciona a data pequenininha (e não trava mais o código!)
+            document.getElementById("data-geracao").textContent = "Gerado em: " + new Date().toLocaleDateString("pt-BR");
+
+            aviso.style.display = "none";
+            btnDownload.disabled = false;
+        }
+
+        function gerarPDF() {
+            document.getElementById("barra-botoes").style.display = "none";
+            html2pdf().set({
+                margin: 10,
+                filename: 'Repertorio_Missa.pdf',
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(document.getElementById("conteudo-pdf")).save().then(() => {
+                document.getElementById("barra-botoes").style.display = "flex";
+            });
+        }
+
+        window.onload = iniciarProcesso;
+    </script>
+</body>
+</html>
