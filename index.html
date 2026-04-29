@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Músicas para o Dia</title>
+
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="imagens/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="imagens/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="imagens/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32"  href="imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="imagens/favicon-16x16.png">
     <link rel="manifest" href="imagens/site.webmanifest">
+
     <link rel="stylesheet" href="style.css">
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){ dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-7YP8E3T4RV');
     </script>
 </head>
 <body class="body-index">
 
-    <!-- Partículas de fundo -->
+    <!-- Partículas decorativas -->
     <div class="particles" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span>
@@ -33,17 +38,19 @@
     <main class="selecao-tempos">
 
         <header class="site-header">
-            <div class="header-ornamento" aria-hidden="true">✦</div>
-            
-            <h1  class="titulo dois">
-                <span class="titulo-linha">Músicas </span>
-                <span class="titulo-linha destaque"> para o Dia</span>
+            <div class="header-ornamento" aria-hidden="true"> ✦ </div>
+
+            <h1 class="titulo dois">
+                <span class="titulo-linha">Músicas</span>
+                <span class="titulo-linha destaque">para o Dia</span>
             </h1>
-            
+
             <p class="subtitulo">Escolha o tempo litúrgico e encontre as músicas certas para celebrar</p>
+
             <div class="header-ornamento bottom" aria-hidden="true">✦</div>
         </header>
 
+        <!-- Grid de tempos litúrgicos -->
         <section class="grid-tempos" aria-label="Tempos litúrgicos">
 
             <a href="quaresma/indexquaresma.html" class="card-tempo quaresma" aria-label="Ir para Quaresma">
@@ -61,7 +68,7 @@
                 <div class="card-icone" aria-hidden="true">✝️</div>
                 <div class="tempo-info">
                     <h2>Páscoa</h2>
-                    <p>Em breve</p>
+                    <p>Tempo pascal</p>
                 </div>
                 <span class="badge-breve" aria-hidden="true">Em breve</span>
             </div>
@@ -71,27 +78,27 @@
                 <div class="card-icone" aria-hidden="true">🌿</div>
                 <div class="tempo-info">
                     <h2>Tempo Comum</h2>
-                    <p>Em breve</p>
+                    <p>Crescimento e missão</p>
                 </div>
                 <span class="badge-breve" aria-hidden="true">Em breve</span>
             </div>
 
-            <div class="card-tempo em-breve" role="article" aria-label="Tempo do Advento — em breve">
+            <div class="card-tempo em-breve" role="article" aria-label="Advento — em breve">
                 <div class="card-bg-shape" aria-hidden="true"></div>
                 <div class="card-icone" aria-hidden="true">🕯️</div>
                 <div class="tempo-info">
                     <h2>Advento</h2>
-                    <p>Em breve</p>
+                    <p>Esperança e vigília</p>
                 </div>
                 <span class="badge-breve" aria-hidden="true">Em breve</span>
             </div>
 
-            <div class="card-tempo em-breve" role="article" aria-label="Tempo do Natal — em breve">
+            <div class="card-tempo em-breve" role="article" aria-label="Natal — em breve">
                 <div class="card-bg-shape" aria-hidden="true"></div>
                 <div class="card-icone" aria-hidden="true">⭐</div>
                 <div class="tempo-info">
                     <h2>Natal</h2>
-                    <p>Em breve</p>
+                    <p>Encarnação e alegria</p>
                 </div>
                 <span class="badge-breve" aria-hidden="true">Em breve</span>
             </div>
@@ -101,7 +108,7 @@
                 <div class="card-icone" aria-hidden="true">🎵</div>
                 <div class="tempo-info">
                     <h2>Extras</h2>
-                    <p>Em breve</p>
+                    <p>Músicas avulsas</p>
                 </div>
                 <span class="badge-breve" aria-hidden="true">Em breve</span>
             </div>

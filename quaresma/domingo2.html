@@ -1,128 +1,173 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2º Domingo da Quaresma - Sugestões</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
-    <script src="../animacao_titulo.js"></script>
-
+    <title>2º Domingo da Quaresma — Músicas para o Dia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../imagens/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../imagens/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../imagens/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32"  href="../imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="../imagens/favicon-16x16.png">
     <link rel="manifest" href="../imagens/site.webmanifest">
-
-    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="../style.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-7YP8E3T4RV');
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7YP8E3T4RV');</script>
 </head>
 <body class="body-quaresma">
 
-    <header>
-        <a href="indexquaresma.html" class="btn-voltar">← Voltar ao Início</a>
-        <h1 id="titulo-agitado"class="titulo um">2º Domingo da Quaresma</h1>
-        <div class="caixa">
-            <p class="titulo tres">“Senhor, é bom ficarmos aqui.”. (Mt 17,1-9) </p>
+    <nav class="nav-interna" aria-label="Navegação">
+        <div class="nav-breadcrumb">
+            <a href="../index.html">Início</a>
+            <span class="nav-sep" aria-hidden="true">›</span>
+            <a href="indexquaresma.html">Quaresma</a>
+            <span class="nav-sep" aria-hidden="true">›</span>
+            <span class="nav-atual">2º Domingo</span>
+        </div>
+        <button class="btn-nav-search" id="btnAbrirBusca" aria-label="Buscar música">
+            <span aria-hidden="true">🔍</span> Buscar
+        </button>
+    </nav>
+
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true"></div>
+    <div class="search-wrapper" style="position:relative; margin:0;">
+        <div class="search-bar" id="searchBar" role="search">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" placeholder="Pesquisar música ou letra…" aria-label="Campo de busca">
+        </div>
+    </div>
+
+    <header class="hero-interno">
+        <div class="hero-tag">Quaresma · 2º Domingo</div>
+        <h1 id="titulo-agitado" class="titulo um">2º Domingo da Quaresma</h1>
+        <div class="caixa-verso">
+            "Senhor, é bom ficarmos aqui." — Mt 17,1-9
         </div>
     </header>
 
     <main class="container-sugestoes">
-    <button class="btn-categoria ">Entrada <span class="seta">▼</span></button>
-    
-    <div class="lista-musicas ">
-        
-        <div class="item-musica">
-            <button class="btn-titulo-musica">VOLTA MEU POVO AO TEU SENHOR – (2º e 5º domingo)</button>
-            <div class="letra-musica-oculta">
-                <p>REFRÃO: Volta, meu povo, ao teu Senhor e exultará teu coração. Ele será teu condutor tua esperança
-                de salvação!<br>
-                1. Se confessas teu pecado e Ele é justo e compassivo. Cantarás purificado os louvores do Deus vivo<br>
-                2. Nossas vidas tão dispersas nosso Deus as juntará! E seremos novo povo. Ele nos renovará!<br>
-                3. Se voltares ao Senhor Ele a ti se voltará! Pois imenso é seu amor, jamais se acabará!<br>
-                </p>
-            </div>
-        </div>    
-    </div>
 
-        <main class="container-sugestoes">
-    <button class="btn-categoria ">Aclamação <span class="seta">▼</span></button>
-    
-    <div class="lista-musicas ">
-        
-        <div class="item-musica">
-            <button class="btn-titulo-musica">2ºDOMINGO: Numa nuvem resplendente, fez-se ouvir a voz do Pai: Eis meu Filho muito amado, escutai-o todos vós !</button>
-            <div class="letra-musica-oculta">
-                <p>Obs.: No Lecionário Dominical os textos das Aclamações ao Evangelho variam entre os 5 Domingos da
-                Quaresma; o grupo de cantores pode ver as antífonas, a fim de que se facilite e se promova o canto da
-                assembleia.<br>
-                1. Louvor a vos ó Cristo Rei, Rei da eterna glória (2X)<br>
-                2. Louvor e Glória a Ti, Senhor, Cristo, Palavra de Deus! (2X)<br>
-                3. Glória a vós, ó Cristo, verbo de Deus, Glória a vós, ó Cristo, verbo de Deus!<br>
-                </p>
+        <!-- ENTRADA -->
+        <section class="secao-categoria">
+            <button class="btn-categoria" aria-expanded="false" aria-controls="lista-entrada">
+                Entrada <span class="cat-count">1 música</span><span class="seta" aria-hidden="true">▼</span>
+            </button>
+            <div class="lista-musicas" id="lista-entrada">
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Volta, Meu Povo, ao Teu Senhor (2º e 5º domingo)</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <strong>REFRÃO:</strong> Volta, meu povo, ao teu Senhor e exultará teu coração. Ele será teu condutor, tua esperança de salvação!<br><br>
+                            1. Se confessas teu pecado e Ele é justo e compassivo, cantarás purificado os louvores do Deus vivo.<br><br>
+                            2. Nossas vidas tão dispersas nosso Deus as juntará! E seremos novo povo, Ele nos renovará!<br><br>
+                            3. Se voltares ao Senhor, Ele a ti se voltará! Pois imenso é seu amor, jamais se acabará!
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>    
-    </div>
+        </section>
 
-        <main class="container-sugestoes">
-    <button class="btn-categoria ">Ofertorio <span class="seta">▼</span></button>
-    
-    <div class="lista-musicas ">
-        
-        <div class="item-musica">
-            <button class="btn-titulo-musica">ACEITA, SENHOR, COM PRAZER ( 1º e 2º domingo)</button>
-            <div class="letra-musica-oculta">
-                <p>REFRÃO: Aceita, Senhor, com prazer. O que vimos te oferecer! O que vimos te oferecer!<br>
-                1 - Que te ouça o Eterno em tua aflição. Proteja-te o nome do Deus da Nação! Do seu santuário te mande
-                um auxílio E, desde Sião, te seja um arrimo!<br>
-                2 - Sim, tudo o que estás a lhe oferecer, receba ele agora com todo prazer! Atenda aos desejos do teu coração
-                conceda a teus sonhos realização!<br>
-                3 - Possamos, assim, cantar tua vitória E alçar, em seu Nome, bandeiras de glória! Agora eu sei: o Eterno
-                liberta! E o seu Consagrado quem salva é sua destra!<br>
-                4 - Confiam nos carros ou então nos cavalos, mas nós no Eterno é que confiamos! Enquanto uns fracassam,
-                firmes estamos! Ao Cristo, a vitória! E ouvidos sejamos!<br></p>
+        <!-- ACLAMAÇÃO -->
+        <section class="secao-categoria">
+            <button class="btn-categoria" aria-expanded="false" aria-controls="lista-aclamacao">
+                Aclamação <span class="cat-count">1 música</span><span class="seta" aria-hidden="true">▼</span>
+            </button>
+            <div class="lista-musicas" id="lista-aclamacao">
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">2º Domingo: "Numa nuvem resplendente, fez-se ouvir a voz do Pai: Eis meu Filho muito amado, escutai-o todos vós!"</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <em>Obs.: No Lecionário Dominical os textos das Aclamações ao Evangelho variam entre os 5 Domingos da Quaresma; o grupo de cantores pode ver as antífonas, a fim de que se facilite e se promova o canto da assembleia.</em><br><br>
+                            1. Louvor a vós, ó Cristo Rei, Rei da eterna glória (2×)<br>
+                            2. Louvor e Glória a Ti, Senhor, Cristo, Palavra de Deus! (2×)<br>
+                            3. Glória a vós, ó Cristo, Verbo de Deus, Glória a vós, ó Cristo, Verbo de Deus!
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>    
-    </div>
+        </section>
 
-    <main class="container-sugestoes">
-    <button class="btn-categoria ">Comunhão <span class="seta">▼</span></button>
-    
-    <div class="lista-musicas ">
-        
-        <div class="item-musica">
-            <button class="btn-titulo-musica">ENTÃO DA NUVEM LUMINOSA Letra Liturgia da Horas (melodia: Agora o tempo se cumpriu)
-            (2° domingo)</button>
-            <div class="letra-musica-oculta">
-                <p>REFRÃO: Então da nuvem luminosa dizia uma voz/ Este é meu Filho amado/ Escutem sempre o que Ele
-                diz.<br>
-                1. Quão amável, ó Senhor, é vossa casa/ Quanto eu amo, Senhor Deus do universo!<br>
-                2. Minha alma desfalece de saudades/ E anseia pelos átrios do Senhor!<br>
-                3. Meu coração e minha carne rejubilam/ E exultam de alegria no Deus vivo!<br>
-                4. Deus do universo, escutai minha oração/ Inclinai, Deus de Jacó, o vosso ouvido!<br>
-                5. Olhai, ó Deus, que sois a nossa proteção! Vede a face do eleito, vosso ungido!<br>
-                6. Na verdade, um só dia em vosso templo/ Vale mais do que ilhares fora dele!<br>
-                7. O Senhor Deus e como um sol, é um escudo/ E largamente distribui a graça e a glória.<br>
-                8. O Senhor Deus nunca recusa bem algum/ Àquele que caminha na justiça.<br>
+        <!-- OFERTÓRIO -->
+        <section class="secao-categoria">
+            <button class="btn-categoria" aria-expanded="false" aria-controls="lista-ofertorio">
+                Ofertório <span class="cat-count">1 música</span><span class="seta" aria-hidden="true">▼</span>
+            </button>
+            <div class="lista-musicas" id="lista-ofertorio">
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Aceita, Senhor, com Prazer (1º e 2º domingo)</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <strong>REFRÃO:</strong> Aceita, Senhor, com prazer, o que vimos te oferecer! O que vimos te oferecer!<br><br>
+                            1. Que te ouça o Eterno em tua aflição. Proteja-te o nome do Deus da Nação! Do seu santuário te mande um auxílio e, desde Sião, te seja um arrimo!<br><br>
+                            2. Sim, tudo o que estás a lhe oferecer, receba ele agora com todo prazer! Atenda aos desejos do teu coração, conceda a teus sonhos realização!<br><br>
+                            3. Possamos, assim, cantar tua vitória e alçar, em seu Nome, bandeiras de glória! Agora eu sei: o Eterno liberta! E o seu Consagrado quem salva é sua destra!<br><br>
+                            4. Confiam nos carros ou então nos cavalos, mas nós no Eterno é que confiamos! Enquanto uns fracassam, firmes estamos! Ao Cristo, a vitória! E ouvidos sejamos!
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>    
-    </div>
+        </section>
 
-    <footer>
-        <p style="text-align: center; margin: 40px 0; color: #d6c0ff;">-Eis meu Filho muito amado-</p>
-    </footer>
+        <!-- COMUNHÃO -->
+        <section class="secao-categoria">
+            <button class="btn-categoria" aria-expanded="false" aria-controls="lista-comunhao">
+                Comunhão <span class="cat-count">1 música</span><span class="seta" aria-hidden="true">▼</span>
+            </button>
+            <div class="lista-musicas" id="lista-comunhao">
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Então da Nuvem Luminosa — Liturgia das Horas (melodia: Agora o tempo se cumpriu) (2º domingo)</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <strong>REFRÃO:</strong> Então da nuvem luminosa dizia uma voz: "Este é meu Filho amado, escutem sempre o que Ele diz."<br><br>
+                            1. Quão amável, ó Senhor, é vossa casa; quanto eu amo, Senhor Deus do universo!<br>
+                            2. Minha alma desfalece de saudades e anseia pelos átrios do Senhor!<br>
+                            3. Meu coração e minha carne rejubilam e exultam de alegria no Deus vivo!<br>
+                            4. Deus do universo, escutai minha oração; inclinai, Deus de Jacó, o vosso ouvido!<br>
+                            5. Olhai, ó Deus, que sois a nossa proteção! Vede a face do eleito, vosso ungido!<br>
+                            6. Na verdade, um só dia em vosso templo vale mais do que milhares fora dele!<br>
+                            7. O Senhor Deus é como um sol, é um escudo e largamente distribui a graça e a glória.<br>
+                            8. O Senhor Deus nunca recusa bem algum àquele que caminha na justiça.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="separador-verso">— Eis meu Filho muito amado —</div>
 
     <footer class="rodape-creditos">
-    <div class="linha-separadora"></div>
-    <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
-    <p class="ano-projeto">© 2026 - Músicas para o Dia</p>
+        <div class="linha-separadora" aria-hidden="true"></div>
+        <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
+        <p class="ano-projeto">© 2026 · Músicas para o Dia</p>
     </footer>
-    
+
+    <!-- Planejador -->
+    <button id="btn-planejador" class="btn-planejador"><span aria-hidden="true">📝</span> Planejar Missa</button>
+    <div id="overlay-planejador" class="search-overlay" aria-hidden="true"></div>
+    <div id="modal-planejador" class="modal-planejador" role="dialog" aria-modal="true">
+        <div class="modal-header">
+            <h2>Planejador de Repertório</h2>
+            <button id="fechar-planejador" class="btn-close">&times;</button>
+        </div>
+        <div class="modal-pdf-info">
+            <div class="campo-grupo"><label for="input-paroquia">Paróquia / Comunidade</label><input type="text" id="input-paroquia" class="campo-modal" placeholder="Nome da paróquia…"></div>
+            <div class="campo-grupo"><label for="input-data-missa">Missa / Data</label><input type="text" id="input-data-missa" class="campo-modal" placeholder="Ex: 2º Dom. da Quaresma"></div>
+        </div>
+        <div class="modal-body">
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-e"><label for="ck-e">Entrada</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-a"><label for="ck-a">Aclamação</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="aclamacao" placeholder="Buscar música de Aclamação…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-o"><label for="ck-o">Ofertório</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="ofertorio" placeholder="Buscar música de Ofertório…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-c"><label for="ck-c">Comunhão</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="comunhao" placeholder="Buscar música de Comunhão…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-f"><label for="ck-f">Final</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música (para o Final)…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-x"><label for="ck-x">Extra</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="extras" placeholder="Buscar músicas Extras…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+        </div>
+        <button id="btn-preparar-pdf" class="oii" style="width:100%;margin-top:16px;display:block;text-align:center;">Avançar para Gerar PDF</button>
+    </div>
+
+    <script src="../animacao_titulo.js" defer></script>
+    <script src="../planejador.js" defer></script>
 </body>
 </html>

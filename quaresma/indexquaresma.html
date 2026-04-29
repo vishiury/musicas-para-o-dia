@@ -1,171 +1,223 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Músicas para o Dia</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <script src="../animacao_titulo.js"></script>
-    <script src="../planejador.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <title>Quaresma — Músicas para o Dia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../imagens/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../imagens/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../imagens/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32"  href="../imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="../imagens/favicon-16x16.png">
     <link rel="manifest" href="../imagens/site.webmanifest">
 
-    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-7YP8E3T4RV');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-7YP8E3T4RV');
     </script>
 </head>
 <body class="body-quaresma">
 
-    <header>
-    <a href="../index.html" class="btn-voltar">← Voltar ao Início</a>    
-    <h1 id="titulo-agitado" class="titulo um">Músicas para o dia!</h1>
-    <div class="caixa">
-        <p class="titulo tres">"A Quaresma é um tempo de reflexão e conversão. A escolha das músicas para a missa deve respeitar o caráter penitencial deste tempo, evitando o uso do 'Aleluia' e priorizando instrumentos de forma sóbria. Abaixo, preparamos sugestões selecionadas para cada domingo, facilitando o serviço dos ministérios de música."</p>
-    </div>
-</header>
+    <!-- Barra de navegação -->
+    <nav class="nav-interna" aria-label="Navegação">
+        <div class="nav-breadcrumb">
+            <a href="../index.html">Início</a>
+            <span class="nav-sep" aria-hidden="true">›</span>
+            <span class="nav-atual">Quaresma</span>
+        </div>
 
-<div id="searchOverlay" class="search-overlay"></div>
+        <button class="btn-nav-search" id="btnAbrirBusca" aria-label="Buscar música">
+            <span aria-hidden="true">🔍</span> Buscar música
+        </button>
+    </nav>
 
-<div class="search-wrapper">
-    <div class="search-bar" id="searchBar">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Pesquisar música...">
+    <!-- Overlay e barra de busca expandida -->
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true"></div>
+
+    <div class="search-wrapper" style="position:relative;">
+        <div class="search-bar" id="searchBar" role="search" aria-label="Pesquisa de músicas">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" placeholder="Pesquisar música ou letra…" aria-label="Campo de busca">
+        </div>
     </div>
-</div>
+
+    <!-- Hero da seção -->
+    <header class="hero-interno" style="padding-bottom: 12px;">
+        <div class="hero-tag">Tempo Litúrgico</div>
+        <h1 id="titulo-agitado" class="titulo um">Quaresma</h1>
+        <div class="caixa-verso">
+            <p>A Quaresma é um tempo de reflexão e conversão. A escolha das músicas deve respeitar
+            o caráter penitencial deste tempo, evitando o <em>Aleluia</em> e priorizando
+            instrumentos de forma sóbria.</p>
+        </div>
+    </header>
+
+    <!-- Grid dos domingos -->
     <main>
-        <h2 class="dias">Primeiro domingo da Quaresma</h2>
-        <a href="domingo1.html" class="oii">Ver sugestões de músicas</a>
+        <section class="grid-domingos" aria-label="Domingos da Quaresma">
 
-        <h2 class="dias">Segundo domingo da Quaresma</h2>
-        <a href="domingo2.html" class="oii">Ver sugestões de músicas</a>
+            <a href="domingo1.html" class="card-domingo" aria-label="1º Domingo da Quaresma">
+                <span class="card-domingo-num">1º Domingo</span>
+                <h3>da Quaresma</h3>
+                <p class="verso-resumo">"Piedade, ó Senhor, tende piedade, pois pecamos contra vós." — Sl 50/51</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
 
-        <h2 class="dias">Terceiro domingo da Quaresma</h2>
-        <a href="domingo3.html" class="oii">Ver sugestões de músicas</a>
+            <a href="domingo2.html" class="card-domingo" aria-label="2º Domingo da Quaresma">
+                <span class="card-domingo-num">2º Domingo</span>
+                <h3>da Quaresma</h3>
+                <p class="verso-resumo">"Senhor, é bom ficarmos aqui." — Mt 17,1-9</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
 
-        <h2 class="dias">Quarto domingo da Quaresma</h2>
-        <a href="domingo4.html" class="oii">Ver sugestões de músicas</a>
-        
-        <h2 class="dias">Quinto domingo da Quaresma</h2>
-        <a href="domingo5.html" class="oii">Ver sugestões de músicas</a>
+            <a href="domingo3.html" class="card-domingo" aria-label="3º Domingo da Quaresma">
+                <span class="card-domingo-num">3º Domingo</span>
+                <h3>da Quaresma</h3>
+                <p class="verso-resumo">"Ele é realmente o Salvador do mundo." — Jo 4,42</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
 
-        <h2 class="dias">Músicas extras</h2>
-        <a href="extras.html" class="oii">Ver músicas extras</a>
+            <a href="domingo4.html" class="card-domingo" aria-label="4º Domingo da Quaresma">
+                <span class="card-domingo-num">4º Domingo</span>
+                <h3>da Quaresma</h3>
+                <p class="verso-resumo">"Eu sou a luz do mundo." — Jo 3,14-21</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
+
+            <a href="domingo5.html" class="card-domingo" aria-label="5º Domingo da Quaresma">
+                <span class="card-domingo-num">5º Domingo</span>
+                <h3>da Quaresma</h3>
+                <p class="verso-resumo">"E agora em diante não peques mais." — Jo 8,1-11</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
+
+            <a href="extras.html" class="card-domingo" aria-label="Músicas Extras">
+                <span class="card-domingo-num">Repertório</span>
+                <h3>Músicas Extras</h3>
+                <p class="verso-resumo">Músicas adicionais que podem ser usadas ao longo do tempo de Quaresma.</p>
+                <span class="card-domingo-seta" aria-hidden="true">→</span>
+            </a>
+
+        </section>
     </main>
+
+    <!-- Planejador de Repertório -->
+    <button id="btn-planejador" class="btn-planejador" aria-haspopup="dialog">
+        <span aria-hidden="true">📝</span> Planejar Missa
+    </button>
+
+    <div id="overlay-planejador" class="search-overlay" aria-hidden="true"></div>
+
+    <div id="modal-planejador" class="modal-planejador" role="dialog" aria-labelledby="planejador-titulo" aria-modal="true">
+        <div class="modal-header">
+            <h2 id="planejador-titulo">Planejador de Repertório</h2>
+            <button id="fechar-planejador" class="btn-close" aria-label="Fechar planejador">&times;</button>
+        </div>
+
+        <!-- Informações do PDF -->
+        <div class="modal-pdf-info">
+            <div class="campo-grupo">
+                <label for="input-paroquia">Paróquia / Comunidade</label>
+                <input type="text" id="input-paroquia" class="campo-modal" placeholder="Nome da paróquia…">
+            </div>
+            <div class="campo-grupo">
+                <label for="input-data-missa">Missa / Data</label>
+                <input type="text" id="input-data-missa" class="campo-modal" placeholder="Ex: 1º Dom. da Quaresma">
+            </div>
+        </div>
+
+        <!-- Momentos da missa -->
+        <div class="modal-body">
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-entrada">
+                    <label for="check-entrada">Entrada</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-aclamacao">
+                    <label for="check-aclamacao">Aclamação</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="aclamacao" placeholder="Buscar música de Aclamação…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-ofertorio">
+                    <label for="check-ofertorio">Ofertório</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="ofertorio" placeholder="Buscar música de Ofertório…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-comunhao">
+                    <label for="check-comunhao">Comunhão</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="comunhao" placeholder="Buscar música de Comunhão…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-final">
+                    <label for="check-final">Final</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada (para o Final)…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+            <div class="momento-missa">
+                <div class="momento-info">
+                    <input type="checkbox" class="check-momento" id="check-extra">
+                    <label for="check-extra">Extra</label>
+                </div>
+                <div class="momento-inputs">
+                    <input type="text" class="input-musica" data-categoria="extras" placeholder="Buscar músicas Extras…">
+                    <input type="text" class="input-tom" placeholder="Tom">
+                </div>
+            </div>
+
+        </div>
+
+        <button id="btn-preparar-pdf" class="oii" style="width:100%; margin-top:16px; text-align:center; display:block;">
+            Avançar para Gerar PDF
+        </button>
+    </div>
+
     <footer class="rodape-creditos">
-    <div class="linha-separadora"></div>
-    <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
-    <p class="ano-projeto">© 2026 - Músicas para o Dia</p>
+        <div class="linha-separadora" aria-hidden="true"></div>
+        <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
+        <p class="ano-projeto">© 2026 · Músicas para o Dia</p>
     </footer>
 
-
-
-<!-- BOTAO PARA ABRIR O PLANEJADOR -->
-<button id="btn-planejador" class="btn-planejador">📝 Planejar Missa</button>
-
-<!-- OVERLAY E MODAL -->
-<div id="overlay-planejador" class="search-overlay"></div>
-
-<div id="modal-planejador" class="modal-planejador">
-    
-    <!-- CABEÇALHO DO MODAL -->
-    <div class="modal-header">
-        <h2>Planejador de Repertório</h2>
-        <button id="fechar-planejador" class="btn-close">&times;</button>
-    </div>
-        
-    <!-- INFORMAÇÕES DO PDF -->
-    <div style="background: #f4f4f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #1d044b;">
-        <h4 style="margin-top: 0; color: #1d044b; margin-bottom: 10px;">📄 Informações do PDF</h4>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="input-paroquia" placeholder="Nome da Paróquia/Comunidade" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-            <input type="text" id="input-data-missa" placeholder="Ex: 1º Dom. da Quaresma" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-        </div>
-    </div>
-    
-    <!-- LISTA DE MÚSICAS -->
-    <div class="modal-body">
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Entrada</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Aclamação</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" data-categoria="aclamacao" placeholder="Buscar música de Aclamação...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Ofertório</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" data-categoria="ofertorio" placeholder="Buscar música de Ofertório...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Comunhão</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" data-categoria="comunhao" placeholder="Buscar música de Comunhão...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Final</label>
-            </div>
-            <div class="momento-inputs">
-                <!-- COMO COMBINADO: O Final vai buscar as músicas de Entrada (data-categoria="entrada") -->
-                <input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada (para o Final)...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-        <div class="momento-missa">
-            <div class="momento-info">
-                <input type="checkbox" class="check-momento">
-                <label>Extra</label>
-            </div>
-            <div class="momento-inputs">
-                <input type="text" class="input-musica" data-categoria="extras" placeholder="Buscar músicas Extras...">
-                <input type="text" class="input-tom" placeholder="Tom">
-            </div>
-        </div>
-        
-    </div>
-    
-    <button id="btn-preparar-pdf" class="oii" style="width: 100%;">Avançar para Gerar PDF</button>
-</div>
+    <script src="../animacao_titulo.js" defer></script>
+    <script src="../planejador.js" defer></script>
 </body>
 </html>

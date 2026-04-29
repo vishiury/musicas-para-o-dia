@@ -1,187 +1,200 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const btnPlanejador = document.getElementById("btn-planejador");
-    const modalPlanejador = document.getElementById("modal-planejador");
-    const overlayPlanejador = document.getElementById("overlay-planejador");
-    const btnFechar = document.getElementById("fechar-planejador");
-    const btnPdf = document.getElementById("btn-preparar-pdf");
+/**
+ * PLANEJADOR DE REPERTÓRIO
+ * Modal para planejar músicas da missa e gerar PDF
+ */
 
-    let bancoDeMusicas = [];
-    let resultadosDiv = null;
+(function() {
+    'use strict';
 
-    function normalizarTexto(texto) {
-        return (texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-    }
+    const btnPlanejador = document.getElementById('btn-planejador');
+    const modal = document.getElementById('modal-planejador');
+    const overlay = document.getElementById('overlay-planejador');
+    const btnFechar = document.getElementById('fechar-planejador');
+    const btnPrepararPDF = document.getElementById('btn-preparar-pdf');
 
-    function debounce(func, wait) {
-        let timeout;
-        return function (...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
+    let musicasData = [];
 
-    function abrirModal() {
-        if (modalPlanejador && overlayPlanejador) {
-            modalPlanejador.classList.add("ativo");
-            overlayPlanejador.classList.add("ativo");
-            document.body.style.overflow = "hidden";
-            if (bancoDeMusicas.length === 0) carregarDados();
-        }
-    }
+    // Carregar dados de músicas
+    fetch('../musicas.json')
+        .then(res => res.json())
+        .then(data => {
+            musicasData = data;
+        })
+        .catch(err => console.error('Erro ao carregar músicas para planejador:', err));
 
-    function fecharModal() {
-        if (modalPlanejador) modalPlanejador.classList.remove("ativo");
-        if (overlayPlanejador) overlayPlanejador.classList.remove("ativo");
-        document.body.style.overflow = "auto";
-        if (resultadosDiv) resultadosDiv.style.display = "none";
-    }
-
-    btnPlanejador?.addEventListener("click", abrirModal);
-    btnFechar?.addEventListener("click", fecharModal);
-    // 1. O fundo escuro só fecha se você clicar EXATAMENTE nele (e não nos filhos dele)
-overlayPlanejador?.addEventListener("click", function(event) {
-    if (event.target === overlayPlanejador) {
-        fecharModal();
-    }
-});
-
-// 2. Trava de segurança: impede que qualquer clique dentro do modal vaze para fora
-modalPlanejador?.addEventListener("click", function(event) {
-    event.stopPropagation(); 
-});
-
-    async function carregarDados() {
-        try {
-            const estaNaSubpasta = window.location.pathname.includes("/quaresma/") || window.location.pathname.includes("/pascoa/");
-            const path = estaNaSubpasta ? "../musicas.json" : "musicas.json";
-            const res = await fetch(path);
-            if (!res.ok) throw new Error("Erro json");
-            bancoDeMusicas = await res.json();
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    const inputsMusica = document.querySelectorAll(".input-musica");
-
-    inputsMusica.forEach((input) => {
-        input.addEventListener("input", debounce(function () {
-            const termo = normalizarTexto(this.value);
-            const categoriaAlvo = this.getAttribute("data-categoria");
-            const inputAtual = this;
-
-            if (!resultadosDiv) {
-                resultadosDiv = document.createElement("div");
-                resultadosDiv.className = "sugestoes-planejador";
-                document.body.appendChild(resultadosDiv);
-            }
-
-            resultadosDiv.innerHTML = "";
-
-            if (termo.length < 2) {
-                resultadosDiv.style.display = "none";
-                return;
-            }
-
-            const filtrados = bancoDeMusicas.filter((m) => {
-                return normalizarTexto(m.titulo).includes(termo) && m.categoria === categoriaAlvo;
-            });
-
-            if (filtrados.length > 0) {
-                const rect = this.getBoundingClientRect();
-                resultadosDiv.style.top = `${rect.bottom + window.scrollY}px`;
-                resultadosDiv.style.left = `${rect.left}px`;
-                resultadosDiv.style.width = `${rect.width}px`;
-                resultadosDiv.style.display = "block";
-
-                filtrados.forEach((musica) => {
-                    const item = document.createElement("div");
-                    item.className = "item-sugestao";
-                    item.innerHTML = `<strong>${musica.titulo}</strong>`;
-
-                    item.onclick = () => {
-                        inputAtual.value = musica.titulo;
-                        
-                        // SALVANDO O LINK E A LETRA NO HTML INVISÍVEL
-                        inputAtual.setAttribute("data-letra", musica.letra || "");
-                        inputAtual.setAttribute("data-link", musica.link || "");
-
-                        resultadosDiv.style.display = "none";
-                        salvarNoStorage();
-                    };
-                    resultadosDiv.appendChild(item);
-                });
-            } else {
-                resultadosDiv.style.display = "none";
-            }
-        }, 300));
-    });
-
-    document.addEventListener("click", function (e) {
-        if (resultadosDiv && !e.target.classList.contains("input-musica")) {
-            resultadosDiv.style.display = "none";
-        }
-    });
-
-    function salvarNoStorage() {
-    const momentos = document.querySelectorAll(".momento-missa");
-    const dados = Array.from(momentos).map((m) => {
-        const input = m.querySelector(".input-musica");
-        return {
-            check: m.querySelector(".check-momento").checked,
-            musica: input.value,
-            tom: m.querySelector(".input-tom").value,
-            letra: input.getAttribute("data-letra") || "",
-            // 👇 ESSA LINHA É A MAIS IMPORTANTE! É ELA QUE ESTAVA FALTANDO ANTES:
-            link: input.getAttribute("data-link") || "" 
-        };
-    });
-    localStorage.setItem("meuRepertorioMissa", JSON.stringify(dados));
-}
-
-    function carregarDoStorage() {
-        const salvos = JSON.parse(localStorage.getItem("meuRepertorioMissa") || "[]");
-        const momentos = document.querySelectorAll(".momento-missa");
-        momentos.forEach((m, i) => {
-            if (salvos[i]) {
-                const input = m.querySelector(".input-musica");
-                m.querySelector(".check-momento").checked = salvos[i].check;
-                input.value = salvos[i].musica || "";
-                m.querySelector(".input-tom").value = salvos[i].tom || "";
-                input.setAttribute("data-letra", salvos[i].letra || "");
-                input.setAttribute("data-link", salvos[i].link || "");
+    // Abrir modal
+    if (btnPlanejador) {
+        btnPlanejador.addEventListener('click', () => {
+            if (modal && overlay) {
+                modal.classList.add('ativo');
+                overlay.classList.add('ativo');
+                document.body.style.overflow = 'hidden';
             }
         });
     }
 
-    carregarDoStorage();
-
-    document.querySelectorAll(".check-momento").forEach((cb) => cb.addEventListener("change", salvarNoStorage));
-    document.querySelectorAll(".input-tom").forEach((input) => input.addEventListener("input", debounce(salvarNoStorage, 500)));
-
-    btnPdf?.addEventListener("click", function () {
-        salvarNoStorage();
-        const estaNaSubpasta = window.location.pathname.includes("/quaresma/") || window.location.pathname.includes("/pascoa/");
-        window.location.href = estaNaSubpasta ? "../gerar_pdf.html" : "gerar_pdf.html";
-    });
-        // --- LÓGICA DO CABEÇALHO DO PDF ---
-    const inputParoquia = document.getElementById("input-paroquia");
-    const inputDataMissa = document.getElementById("input-data-missa");
-
-    function salvarCabecalho() {
-        const cabecalho = {
-            paroquia: inputParoquia ? inputParoquia.value : "",
-            dataMissa: inputDataMissa ? inputDataMissa.value : ""
-        };
-        localStorage.setItem("meuCabecalhoMissa", JSON.stringify(cabecalho));
+    // Fechar modal
+    function fecharModal() {
+        if (modal && overlay) {
+            modal.classList.remove('ativo');
+            overlay.classList.remove('ativo');
+            document.body.style.overflow = '';
+        }
     }
 
-    // Carrega o que já estava escrito quando abre o site
-    const cabecalhoSalvo = JSON.parse(localStorage.getItem("meuCabecalhoMissa") || "{}");
-    if (inputParoquia) inputParoquia.value = cabecalhoSalvo.paroquia || "";
-    if (inputDataMissa) inputDataMissa.value = cabecalhoSalvo.dataMissa || "";
+    if (btnFechar) {
+        btnFechar.addEventListener('click', fecharModal);
+    }
 
-    // Salva automaticamente enquanto você digita
-    inputParoquia?.addEventListener("input", debounce(salvarCabecalho, 500));
-    inputDataMissa?.addEventListener("input", debounce(salvarCabecalho, 500));
-});
+    if (overlay) {
+        overlay.addEventListener('click', fecharModal);
+    }
+
+    // ESC fecha modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('ativo')) {
+            fecharModal();
+        }
+    });
+
+    // Autocomplete nos inputs de música
+    const inputsMusica = document.querySelectorAll('.input-musica');
+    
+    inputsMusica.forEach(input => {
+        let autocompleteDiv = null;
+
+        input.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            const categoria = this.getAttribute('data-categoria');
+
+            // Remove autocomplete anterior
+            removerAutocomplete();
+
+            if (query.length < 2) return;
+
+            // Filtra músicas pela categoria e query
+            let resultados = musicasData.filter(musica => {
+                const tituloMatch = musica.titulo.toLowerCase().includes(query);
+                const categoriaMatch = !categoria || musica.categoria === categoria;
+                return tituloMatch && categoriaMatch;
+            });
+
+            if (resultados.length === 0) return;
+
+            // Cria div de autocomplete
+            autocompleteDiv = document.createElement('div');
+            autocompleteDiv.className = 'autocomplete-resultados';
+            autocompleteDiv.style.display = 'block';
+
+            resultados.slice(0, 5).forEach(musica => {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.textContent = musica.titulo;
+                
+                item.addEventListener('click', () => {
+                    input.value = musica.titulo;
+                    removerAutocomplete();
+                });
+
+                autocompleteDiv.appendChild(item);
+            });
+
+            this.parentElement.style.position = 'relative';
+            this.parentElement.appendChild(autocompleteDiv);
+        });
+
+        // Fechar autocomplete ao clicar fora
+        input.addEventListener('blur', () => {
+            setTimeout(removerAutocomplete, 200);
+        });
+
+        function removerAutocomplete() {
+            if (autocompleteDiv && autocompleteDiv.parentElement) {
+                autocompleteDiv.remove();
+                autocompleteDiv = null;
+            }
+        }
+    });
+
+    // Preparar PDF
+    if (btnPrepararPDF) {
+        btnPrepararPDF.addEventListener('click', () => {
+            const paroquia = document.getElementById('input-paroquia')?.value || '';
+            const dataMissa = document.getElementById('input-data-missa')?.value || '';
+
+            // Coletar músicas selecionadas
+            const momentos = [];
+            const checkboxes = document.querySelectorAll('.check-momento');
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const container = checkbox.closest('.momento-missa');
+                    const label = container.querySelector('label').textContent;
+                    const inputMusica = container.querySelector('.input-musica');
+                    const inputTom = container.querySelector('.input-tom');
+
+                    if (inputMusica && inputMusica.value.trim()) {
+                        momentos.push({
+                            momento: label,
+                            musica: inputMusica.value.trim(),
+                            tom: inputTom ? inputTom.value.trim() : ''
+                        });
+                    }
+                }
+            });
+
+            if (momentos.length === 0) {
+                alert('Por favor, selecione ao menos um momento e adicione uma música.');
+                return;
+            }
+
+            // Gerar PDF (aqui você pode implementar a geração real)
+            gerarPDF(paroquia, dataMissa, momentos);
+        });
+    }
+
+    function gerarPDF(paroquia, dataMissa, momentos) {
+        // Por enquanto, vamos apenas mostrar os dados no console
+        console.log('Gerando PDF:', { paroquia, dataMissa, momentos });
+
+        // Criar conteúdo simples
+        let conteudo = `
+PLANEJAMENTO DE REPERTÓRIO
+
+${paroquia ? 'Paróquia: ' + paroquia : ''}
+${dataMissa ? 'Missa: ' + dataMissa : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+`;
+
+        momentos.forEach(m => {
+            conteudo += `${m.momento.toUpperCase()}\n`;
+            conteudo += `${m.musica}`;
+            if (m.tom) conteudo += ` — Tom: ${m.tom}`;
+            conteudo += '\n\n';
+        });
+
+        conteudo += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Gerado em: ${new Date().toLocaleDateString('pt-BR')}
+Músicas para o Dia · musicasparaodi.com.br
+`;
+
+        // Criar blob de texto
+        const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Repertorio_${dataMissa.replace(/\s+/g, '_') || 'Missa'}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // Mensagem de sucesso
+        alert('Arquivo de texto gerado! Para um PDF profissional, considere copiar este conteúdo para um editor de documentos.');
+        
+        // Fechar modal
+        fecharModal();
+    }
+
+})();

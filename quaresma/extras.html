@@ -1,110 +1,148 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Músicas extras</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
-    <script src="../animacao_titulo.js"></script>
-
+    <title>Músicas Extras — Quaresma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../imagens/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../imagens/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../imagens/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32"  href="../imagens/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="../imagens/favicon-16x16.png">
     <link rel="manifest" href="../imagens/site.webmanifest">
-
-    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="../style.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YP8E3T4RV"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-7YP8E3T4RV');
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7YP8E3T4RV');</script>
 </head>
 <body class="body-quaresma">
 
-    <header>
-        <a href="indexquaresma.html" class="btn-voltar">← Voltar ao Início</a>
-        <h1 id="titulo-agitado" class="titulo um">Músicas extras</h1>
-        <div class="caixa">
-            <p class="titulo tres">Estas musicas podem ser usadas caso necessário. </p>
+    <nav class="nav-interna" aria-label="Navegação">
+        <div class="nav-breadcrumb">
+            <a href="../index.html">Início</a>
+            <span class="nav-sep" aria-hidden="true">›</span>
+            <a href="indexquaresma.html">Quaresma</a>
+            <span class="nav-sep" aria-hidden="true">›</span>
+            <span class="nav-atual">Extras</span>
+        </div>
+        <button class="btn-nav-search" id="btnAbrirBusca"><span aria-hidden="true">🔍</span> Buscar</button>
+    </nav>
+
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true"></div>
+    <div class="search-wrapper" style="position:relative;margin:0;">
+        <div class="search-bar" id="searchBar" role="search">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" placeholder="Pesquisar música ou letra…" aria-label="Campo de busca">
+        </div>
+    </div>
+
+    <header class="hero-interno">
+        <div class="hero-tag">Quaresma · Repertório Adicional</div>
+        <h1 id="titulo-agitado" class="titulo um">Músicas Extras</h1>
+        <div class="caixa-verso">
+            Repertório adicional que pode ser usado ao longo do tempo de Quaresma.
         </div>
     </header>
 
     <main class="container-sugestoes">
-    <button class="btn-categoria ">Extras <span class="seta">▼</span></button>
-    
-    <div class="lista-musicas ">
-        
-        <div class="item-musica">
-            <button class="btn-titulo-musica">MESTRE, BOM É ESTARMOS AQUI</button>
-            <div class="letra-musica-oculta">
-                <p>1. Mestre, bom é estarmos aqui, reunidos bem perto de ti, no silêncio e na paz. Mestre, reunidos no amor,
-                nós viemos ao Monte Tabor para em Ti repousar.<br>
-                REFRÃO: E nós cantaremos a mesma canção, Aunidos no mesmo coração. E nós cantaremos a mesma
-                canção, unidos no mesmo coração.<br>
-                2. Mestre, ao sairmos daqui nós iremos teus passos seguir com sementes nas mãos. Mestre, nós queremos
-                plantar o teu Reino em todo lugar e crescer como irmãos.<br>
-                </p>
-            </div>
-        </div>
-        <div class="item-musica">
-            <button class="btn-titulo-musica">Misericórdia, Senhor, Misericórdia</button>
-            <div class="letra-musica-oculta">
-                <p>REFRÃO: Misericórdia, Senhor, misericórdia! Misericórdia!<br>
-                1. Senhor, escuta o lamento e tem de nós compaixão. Ao povo dá novo alento, a tua graça e perdão.<br>
-                </p>
-            </div>
-        </div>
-        <div class="item-musica">
-            <button class="btn-titulo-musica">HINO OFICIAL DA CAMPANHA DA FRATERNIDADE 2026</button>
-            <div class="letra-musica-oculta">
-                <p>REFRÃO: “ELE VEIO MORAR ENTRE NÓS”
-                    DEUS CONOSCO EM CADA IRMÃO!
-                    POR UM LAR DE AMOR E JUSTIÇA,
-                    NOSSO CANTO AS NAÇÕES OUVIRÃO.<br>
-                1. NO CAMINHO DA VIDA SOFRIDA,
-                    HÁ IRMÃOS SEM ABRIGO, SEM CHÃO.
-                    NA CALÇADA, NO BAIRRO, NA ESPERA,
-                    BROTA O GRITO, O CLAMOR DO IRMÃO.
-                    MAS O VERBO SE FEZ MORADIA
-                    NO PRESÉPIO DA SIMPLICIDADE:
-                    VEM MORAR COM O POBRE SOFRIDO,
-                    TRANSFORMANDO A DOR EM BONDADE!<br>
-                2. ONDE FALTA DIREITO E CUIDADO,
-                    SOBRA MEDO, ABANDONO E DOR.
-                    MAS A FÉ, QUE SE FAZ COMPROMISSO,
-                    ERGUE A VOZ COM FIRMEZA E ARDOR!
-                    QUANDO O AMOR FOR TIJOLO E TELHADO,
-                    E A JUSTIÇA A NOSSA MISSÃO,
-                    CADA CASA SERÁ TESTEMUNHO
-                    DO EVANGELHO DE CRISTO EM AÇÃO!<br>
-                3. SE O PROFETA LEVANTA SUA VOZ,
-                    É O CRISTO QUE CLAMA TAMBÉM:
-                    “DAI MORADA AO PEQUENO E AO FRACO,
-                    SEDE OS BRAÇOS QUE ACOLHEM O BEM!”.
-                    NOSSA FÉ NÃO SE FINDA NO ALTAR:
-                    PARTILHAR BROTA EM NÓS COMUNHÃO.
-                    ESPALHANDO AS SEMENTES DO AMOR,
-                    NOSSA FÉ FAZ DE NÓS MAIS IRMÃOS!<br>
 
-                </p>
+        <!-- EXTRAS -->
+        <section class="secao-categoria">
+            <button class="btn-categoria" aria-expanded="false" aria-controls="lista-extras">
+                Músicas Extras <span class="cat-count">3 músicas</span><span class="seta" aria-hidden="true">▼</span>
+            </button>
+            <div class="lista-musicas" id="lista-extras">
+                
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Mestre, Bom é Estarmos Aqui</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            1. Mestre, bom é estarmos aqui, reunidos bem perto de ti, no silêncio e na paz. Mestre, reunidos no amor, nós viemos ao Monte Tabor para em Ti repousar.<br><br>
+                            <strong>REFRÃO:</strong> E nós cantaremos a mesma canção, unidos no mesmo coração. E nós cantaremos a mesma canção, unidos no mesmo coração.<br><br>
+                            2. Mestre, ao sairmos daqui nós iremos teus passos seguir com sementes nas mãos. Mestre, nós queremos plantar o teu Reino em todo lugar e crescer como irmãos.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Misericórdia, Senhor, Misericórdia</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <strong>REFRÃO:</strong> Misericórdia, Senhor, misericórdia! Misericórdia!<br><br>
+                            1. Senhor, escuta o lamento e tem de nós compaixão. Ao povo dá novo alento, a tua graça e perdão.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="item-musica">
+                    <button class="btn-titulo-musica">Hino Oficial da Campanha da Fraternidade 2026</button>
+                    <div class="letra-musica-oculta">
+                        <p>
+                            <strong>REFRÃO:</strong> "ELE VEIO MORAR ENTRE NÓS"<br>
+                            DEUS CONOSCO EM CADA IRMÃO!<br>
+                            POR UM LAR DE AMOR E JUSTIÇA,<br>
+                            NOSSO CANTO AS NAÇÕES OUVIRÃO.<br><br>
+                            1. NO CAMINHO DA VIDA SOFRIDA,<br>
+                            HÁ IRMÃOS SEM ABRIGO, SEM CHÃO.<br>
+                            NA CALÇADA, NO BAIRRO, NA ESPERA,<br>
+                            BROTA O GRITO, O CLAMOR DO IRMÃO.<br>
+                            MAS O VERBO SE FEZ MORADIA<br>
+                            NO PRESÉPIO DA SIMPLICIDADE:<br>
+                            VEM MORAR COM O POBRE SOFRIDO,<br>
+                            TRANSFORMANDO A DOR EM BONDADE!<br><br>
+                            2. ONDE FALTA DIREITO E CUIDADO,<br>
+                            SOBRA MEDO, ABANDONO E DOR.<br>
+                            MAS A FÉ, QUE SE FAZ COMPROMISSO,<br>
+                            ERGUE A VOZ COM FIRMEZA E ARDOR!<br>
+                            QUANDO O AMOR FOR TIJOLO E TELHADO,<br>
+                            E A JUSTIÇA A NOSSA MISSÃO,<br>
+                            CADA CASA SERÁ TESTEMUNHO<br>
+                            DO EVANGELHO DE CRISTO EM AÇÃO!<br><br>
+                            3. SE O PROFETA LEVANTA SUA VOZ,<br>
+                            É O CRISTO QUE CLAMA TAMBÉM:<br>
+                            "DAI MORADA AO PEQUENO E AO FRACO,<br>
+                            SEDE OS BRAÇOS QUE ACOLHEM O BEM!".<br>
+                            NOSSA FÉ NÃO SE FINDA NO ALTAR:<br>
+                            PARTILHAR BROTA EM NÓS COMUNHÃO.<br>
+                            ESPALHANDO AS SEMENTES DO AMOR,<br>
+                            NOSSA FÉ FAZ DE NÓS MAIS IRMÃOS!
+                        </p>
+                    </div>
+                </div>
+
             </div>
-        </div>      
+        </section>
+
+    </main>
+
+    <div class="separador-verso">— Músicas adicionais para a Quaresma —</div>
+
+    <footer class="rodape-creditos">
+        <div class="linha-separadora" aria-hidden="true"></div>
+        <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
+        <p class="ano-projeto">© 2026 · Músicas para o Dia</p>
+    </footer>
+
+    <button id="btn-planejador" class="btn-planejador"><span aria-hidden="true">📝</span> Planejar Missa</button>
+    <div id="overlay-planejador" class="search-overlay" aria-hidden="true"></div>
+    <div id="modal-planejador" class="modal-planejador" role="dialog" aria-modal="true">
+        <div class="modal-header"><h2>Planejador de Repertório</h2><button id="fechar-planejador" class="btn-close">&times;</button></div>
+        <div class="modal-pdf-info">
+            <div class="campo-grupo"><label for="input-paroquia">Paróquia / Comunidade</label><input type="text" id="input-paroquia" class="campo-modal" placeholder="Nome da paróquia…"></div>
+            <div class="campo-grupo"><label for="input-data-missa">Missa / Data</label><input type="text" id="input-data-missa" class="campo-modal" placeholder="Ex: 1º Dom. da Quaresma"></div>
+        </div>
+        <div class="modal-body">
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-e"><label for="ck-e">Entrada</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música de Entrada…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-a"><label for="ck-a">Aclamação</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="aclamacao" placeholder="Buscar música de Aclamação…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-o"><label for="ck-o">Ofertório</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="ofertorio" placeholder="Buscar música de Ofertório…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-c"><label for="ck-c">Comunhão</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="comunhao" placeholder="Buscar música de Comunhão…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-f"><label for="ck-f">Final</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="entrada" placeholder="Buscar música (para o Final)…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+            <div class="momento-missa"><div class="momento-info"><input type="checkbox" class="check-momento" id="ck-x"><label for="ck-x">Extra</label></div><div class="momento-inputs"><input type="text" class="input-musica" data-categoria="extras" placeholder="Buscar músicas Extras…"><input type="text" class="input-tom" placeholder="Tom"></div></div>
+        </div>
+        <button id="btn-preparar-pdf" class="oii" style="width:100%;margin-top:16px;display:block;text-align:center;">Avançar para Gerar PDF</button>
     </div>
 
-
-    <footer>
-        <p style="text-align: center; margin: 40px 0; color: #d6c0ff;">-Extras-</p>
-    </footer>
-    <footer class="rodape-creditos">
-
-    <div class="linha-separadora"></div>
-    <p>Projeto desenvolvido por <strong>Iury Gabriel</strong></p>
-    <p class="ano-projeto">© 2026 - Músicas para o Dia</p>
-    </footer>
-    
+    <script src="../animacao_titulo.js" defer></script>
+    <script src="../planejador.js" defer></script>
 </body>
 </html>
